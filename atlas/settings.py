@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_docs',
     'rest_framework.authtoken',
+    'tinymce',
     'authentication',
     'accounts',
+    'projects',
 ]
 
 MIDDLEWARE = [
