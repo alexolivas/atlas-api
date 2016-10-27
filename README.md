@@ -24,6 +24,7 @@ Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 # Getting Started
 - The first step to start working on this project is to fork the repository into your personal github account.
 - Next, clone the forked repository into your local environment
+
 ```bash
 git clone https://gitlab.com/alexolivas/atlas
 ```
