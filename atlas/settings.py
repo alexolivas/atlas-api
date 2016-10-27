@@ -1,5 +1,5 @@
 """
-Django settings for djangorest project on Heroku. Fore more info, see:
+Django settings for atlas project. Fore more info, see:
 https://github.com/heroku/heroku-django-template
 For more information on this file, see
 https://docs.djangoproject.com/en/1.8/topics/settings/
@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'djangorest.urls'
+ROOT_URLCONF = 'atlas.urls'
 
 TEMPLATES = [
     {
@@ -71,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djangorest.wsgi.application'
+WSGI_APPLICATION = 'atlas.wsgi.application'
 
 
 # Database
