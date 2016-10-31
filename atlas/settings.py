@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'tinymce',
     'authentication',
     'web',
+    'accounts',
     'projects',
 ]
 

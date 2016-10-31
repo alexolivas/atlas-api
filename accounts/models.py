@@ -5,7 +5,7 @@ from django.db import models
 class Account(models.Model):
     name = models.CharField(max_length=150)
     account_number = models.CharField(max_length=20, unique=True, blank=True, null=True)
-    account_owner = models.ForeignKey(AccountOwner)
+    account_owner = models.ForeignKey('AccountOwner')
     industry = models.CharField(max_length=50)
     phone = models.CharField(max_length=25, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
@@ -16,6 +16,9 @@ class Account(models.Model):
     billing_state = models.CharField(max_length=2, blank=True, null=True)
     billing_zip = models.CharField(max_length=10, blank=True, null=True)
 
+    def __unicode__(self):
+        return self.name
+
 
 class AccountOwner(models.Model):
     first_name = models.CharField(max_length=150)
@@ -24,5 +27,5 @@ class AccountOwner(models.Model):
     phone = models.CharField(max_length=25)
     email = models.EmailField()
 
-
-
+    def __unicode__(self):
+        return self.first_name + ' ' + self.last_name

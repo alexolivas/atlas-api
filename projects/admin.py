@@ -3,8 +3,8 @@ from models import Project
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'repo_url',)
-    list_filter = ('active', 'display_on_website',)
-    search_fields = ['name']
+    list_display = ('name', 'account', 'project_completed', 'active_development', 'repo_url',)
+    list_filter = ('active_development', 'project_completed', 'display_on_website',)
+    search_fields = ['name', 'account']
 
 admin.site.register(Project, ProjectAdmin)
