@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 from django.db import models
+from tinymce.models import HTMLField
 
 
 class CareerSnapshot(models.Model):
@@ -16,7 +17,7 @@ class CareerSnapshot(models.Model):
     snapshot_type = models.CharField(max_length=2, choices=SNAPSHOT_TYPE_CHOICES, default=ACADEMIC)
     month = models.IntegerField()
     year = models.IntegerField()
-    description = models.TextField()
+    description = HTMLField()
 
     def __unicode__(self):
         return self.title
@@ -28,23 +29,25 @@ class CareerSnapshotAchievement(models.Model):
     active = models.BooleanField(default=True)
     month = models.IntegerField()
     year = models.IntegerField()
-    description = models.TextField()
+    description = HTMLField(blank=True, null=True)
 
     def __unicode__(self):
         return self.title
 
 
-# TODO: Add a class for to upload profile photos and foreign key-it on the AboutMeInfo object
-class AboutMeInfo(models.Model):
-    home_page_description = models.TextField()
-    about_page_description = models.TextField()
-    personal_description = models.TextField()
+class AboutInfo(models.Model):
+    home_page_description = HTMLField()
+    about_page_description = HTMLField()
+    personal_description = HTMLField()
+
+    class Meta:
+        verbose_name_plural = "about info"
 
 
 class TechnologyStack(models.Model):
     name = models.CharField(max_length=90)
     font_icon_class = models.CharField(max_length=25)
-    experience_description = models.TextField()
+    experience_description = HTMLField()
 
     def __unicode__(self):
         return self.name
@@ -53,7 +56,7 @@ class TechnologyStack(models.Model):
 class Technology(models.Model):
     name = models.CharField(max_length=90)
     technology_stack = models.ForeignKey(TechnologyStack)
-    experience_description = models.TextField(blank=True, null=True)
+    experience_description = HTMLField(blank=True, null=True)
     FRAMEWORK = '00'
     PROGRAMMING_LANGUAGE = '01'
     OTHER = '02'
@@ -66,3 +69,6 @@ class Technology(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Technologies"

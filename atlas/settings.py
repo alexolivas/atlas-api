@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'tinymce',
     'authentication',
-    'accounts',
+    'web',
     'projects',
 ]
 
