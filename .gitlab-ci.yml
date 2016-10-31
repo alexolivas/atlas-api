@@ -1,7 +1,7 @@
 test:
   script:
   # this configures Django application to use attached postgres database that is run on `postgres` host
-  - export DATABASE_URL=postgres://postgres:@postgres:5432/atlas-api-db
+  # - export DATABASE_URL=postgres://postgres:@postgres:5432/atlas-api-db
   - apt-get update -qy
   - apt-get install -y python-dev python-pip
   - pip install -r requirements.txt
@@ -13,7 +13,7 @@ staging:
   - apt-get update -qy
   - apt-get install -y ruby-dev
   - gem install dpl
-  - dpl --provider=heroku --app=gitlab-ci-python-test-staging --api-key=$HEROKU_STAGING_API_KEY
+  - dpl --provider=heroku --app=gitlab-ci-python-test-staging --api-key=$HEROKU_API_KEY
   only:
   - master
 
