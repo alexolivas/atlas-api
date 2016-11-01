@@ -12,7 +12,7 @@ admin.site.register(CareerSnapshot, CareerSnapshotAdmin)
 
 
 class CareerSnapshotAchievementAdmin(admin.ModelAdmin):
-    list_display = ('title', 'milestone',)
+    list_display = ('title', 'milestone', 'month', 'year',)
 admin.site.register(CareerSnapshotAchievement, CareerSnapshotAchievementAdmin)
 
 
