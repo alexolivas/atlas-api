@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from projects.models import Project
-from projects.serializers.public.project_detail_serializer import ProjectDetailSerializer
+from web.models import AboutInfo
+from web.serializers.about_info_serializer import AboutInfoSerializer
 
 
 class AboutInfo(APIView):
@@ -14,12 +14,12 @@ class AboutInfo(APIView):
     permission_classes = (AllowAny,)
 
     @staticmethod
-    def get_project(pk):
+    def get_about_info():
         try:
-            return Project.objects.get(pk=pk, display_on_website=True)
-        except Project.DoesNotExist:
-            raise Http404
+            return AboutInfo.objects.all()[0]
+        except:
+            return None
 
-    def get(self, request, pk, format=None):
-        project = ProjectDetailSerializer(self.get_project(pk))
-        return Response(project.data, status=status.HTTP_200_OK)
+    def get(self, request, format=None):
+        about_info = AboutInfoSerializer(self.get_about_info())
+        return Response(about_info.data, status=status.HTTP_200_OK)
