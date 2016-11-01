@@ -37,17 +37,48 @@ class ProjectDetails(APIView):
 
     @staticmethod
     def get_project(pk):
+        # NOTE: I need to create a project utils class to help with the different types of queries
         try:
             return Project.objects.get(pk=pk, display_on_website=True)
         except Project.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
+        """
+        Returns the details of a specific project
+        :param request:
+        :param pk:
+        :param format:
+        :return:
+        """
         project = ProjectDetailSerializer(self.get_project(pk))
         return Response(project.data, status=status.HTTP_200_OK)
 
-    def put(self, request, pk, format=None):
+    def post(self, request, format=None):
+        """
+        Creates a new project
+        :param request:
+        :param format:
+        :return:
+        """
+        pass
+
+    def patch(self, request, pk, format=None):
+        """
+        Updates an existing project by passing in only the changed attributes
+        :param request:
+        :param pk:
+        :param format:
+        :return:
+        """
         pass
 
     def delete(self, request, pk, format=None):
+        """
+        Deletes an existing project (marks it as deleted)
+        :param request:
+        :param pk:
+        :param format:
+        :return:
+        """
         pass
