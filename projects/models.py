@@ -11,6 +11,7 @@ class Project(models.Model):
     active_development = models.BooleanField(default=True)
     project_completed = models.BooleanField(default=False)
     display_on_website = models.BooleanField(default=True)
+    retired = models.BooleanField(default=False)
     main_photo = models.FileField(upload_to='photos', blank=True, null=True)
     # photo_1 = models.FileField(upload_to='photos', blank=True, null=True)
     # photo_2 = models.FileField(upload_to='photos', blank=True, null=True)
