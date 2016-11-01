@@ -1,11 +1,15 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
+from web.views.portfolio_views import ListProjects, ProjectDetails
+from web.views.about_views import AboutInfo
+from web.views.career_views import ResumeTimeline
 
-from projects.views.public_views import ListProjects, ProjectDetails
 
 urlpatterns = [
-    url(r'^projects/$', ListProjects.as_view(), name='public_projects'),
-    url(r'^projects/(\d+)/$', ProjectDetails.as_view(), name='public_project_details'),
+    url(r'^about/info/$', AboutInfo.as_view(), name='about'),
+    url(r'^career/resume/$', ResumeTimeline.as_view(), name='resume'),
+    url(r'^portfolio/projects/$', ListProjects.as_view(), name='portfolio_projects'),
+    url(r'^portfolio/projects/(\d+)/$', ProjectDetails.as_view(), name='portfolio_project_details'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
