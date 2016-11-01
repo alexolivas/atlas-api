@@ -1,1 +1,1 @@
-web: gunicorn djangorest.wsgi --log-file -
+web: gunicorn atlas.wsgi --log-file -
