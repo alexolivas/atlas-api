@@ -1,13 +1,12 @@
 from django.http import Http404
-from projects.serializers.restricted.project_detail_serializer import ProjectDetailSerializer
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from projects.models import Project
 from projects.serializers.projects_serializer import ProjectsSerializer
+from projects.serializers.project_detail_serializer import ProjectDetailSerializer
 
 
 class ListProjects(APIView):
