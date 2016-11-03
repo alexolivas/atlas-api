@@ -12,6 +12,7 @@ class Project(models.Model):
     project_completed = models.BooleanField(default=False)
     display_on_website = models.BooleanField(default=True)
     retired = models.BooleanField(default=False)
+    start_date = models.DateField(blank=True, null=True)
     main_photo = models.FileField(upload_to='photos', blank=True, null=True)
     # photo_1 = models.FileField(upload_to='photos', blank=True, null=True)
     # photo_2 = models.FileField(upload_to='photos', blank=True, null=True)
@@ -22,7 +23,6 @@ class Project(models.Model):
     stage_url = models.URLField(blank=True, null=True)
     production_url = models.URLField(blank=True, null=True)
     technology = models.ManyToManyField(Technology)
-    # technologies_used > ManyToMany
 
     def __unicode__(self):
         return self.name

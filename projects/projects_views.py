@@ -1,31 +1,31 @@
 from django.http import Http404
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.filters import SearchFilter
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from projects.models import Project
-from projects.serializers.projects_serializer import ProjectsSerializer
-from projects.serializers.project_detail_serializer import ProjectDetailSerializer
+from projects.serializers.project_serializer import ProjectSerializer
+from projects.filters.project_filter import ProjectFilter
 
 
-class ListProjects(APIView):
+class ListProjects(ListAPIView):
     """
     This endpoint returns a list of projects selected to be viewed on my portfolio website
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated, IsAdminUser)
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    search_fields = ('name',)
+    filter_class = ProjectFilter
 
-    def get(self, request, format=None):
-        """
-        Return of a list of all active projects selected to appear on my portfolio website
-        :param request:
-        :param format:
-        :return: JSON object array containing project details
-        """
-        projects = Project.objects.all()
-        projects_serializer = ProjectsSerializer(projects, many=True)
-        return Response(projects_serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        return self.queryset
 
 
 class ProjectDetails(APIView):
@@ -51,7 +51,7 @@ class ProjectDetails(APIView):
         :param format:
         :return:
         """
-        project = ProjectDetailSerializer(self.get_project(pk))
+        project = ProjectSerializer(self.get_project(pk))
         return Response(project.data, status=status.HTTP_200_OK)
 
     def post(self, request, format=None):
