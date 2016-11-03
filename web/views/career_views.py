@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from projects.models import Project
-from web.serializers.projects_serializer import ProjectsSerializer
+from web.serializers.portfolio_serializer import PortfolioSerializer
 
 
 class ResumeTimeline(APIView):
@@ -29,5 +29,5 @@ class ResumeTimeline(APIView):
         :return: JSON object array containing project details
         """
         projects = Project.objects.filter(display_on_website=True)
-        projects_serializer = ProjectsSerializer(projects, many=True)
+        projects_serializer = PortfolioSerializer(projects, many=True)
         return Response(projects_serializer.data, status=status.HTTP_200_OK)

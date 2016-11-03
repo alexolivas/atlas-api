@@ -1,30 +1,24 @@
 from django.http import Http404
 from rest_framework import status
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from projects.models import Project
-from web.serializers.project_detail_serializer import ProjectDetailSerializer
-from web.serializers.projects_serializer import ProjectsSerializer
+from web.serializers.portfolio_detail_serializer import PortfolioDetailSerializer
+from web.serializers.portfolio_serializer import PortfolioSerializer
 
 
-class ListProjects(APIView):
+class ListProjects(ListAPIView):
     """
     This endpoint returns a list of projects selected to be viewed on my portfolio website
     """
     permission_classes = (AllowAny,)
+    queryset = Project.objects.filter(display_on_website=True)
+    serializer_class = PortfolioSerializer
 
-    def get(self, request, format=None):
-        """
-        Return of a list of all active projects selected to appear on my portfolio website
-        :param request:
-        :param format:
-        :return: JSON object array containing project details
-        """
-        projects = Project.objects.filter(display_on_website=True)
-        projects_serializer = ProjectsSerializer(projects, many=True)
-        return Response(projects_serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        return self.queryset
 
 
 class ProjectDetails(APIView):
@@ -41,5 +35,5 @@ class ProjectDetails(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
-        project = ProjectDetailSerializer(self.get_project(pk))
+        project = PortfolioDetailSerializer(self.get_project(pk))
         return Response(project.data, status=status.HTTP_200_OK)
