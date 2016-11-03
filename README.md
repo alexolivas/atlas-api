@@ -1,5 +1,6 @@
 # Atlas
-REST project to feed my website's content.
+The Atlas API is an internal REST based project management service. It uses HTTP methods and a RESTful endpoint structure. 
+The API authorization framework is OAuth.
 
 Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 
