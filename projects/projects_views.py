@@ -2,7 +2,7 @@ from django.http import Http404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
@@ -20,9 +20,10 @@ class ListProjects(ListAPIView):
     permission_classes = (IsAuthenticated, IsAdminUser,)
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    filter_backends = (DjangoFilterBackend,SearchFilter)
-    search_fields = ('name',)
+    filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
     filter_class = ProjectFilter
+    search_fields = ('name',)
+    ordering_fields = ('name', 'account')
 
     def get_queryset(self):
         return self.queryset
