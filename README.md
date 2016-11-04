@@ -19,6 +19,7 @@ Visit the [api docs](http://django-rest-starter.herokuapp.com/)
         - [Pre Requisites](#pre-requisites)
         - [Create Virtual Environment](#create-virtual-environment)
         - [Create Superuser](#create-superuser)
+    - [Data](#data)
 - [Helpful Commands](#helpful-commands)
 - [Wercker/Heroku Deployment](#wercker-and-heroku-deployment)
 
@@ -186,6 +187,17 @@ Run the following command and follow the step by step instructions
 python manage.py createsuperuser
 ```
 
+## Data
+Once you have your local development environment running you will want to load your database with test data so that you can interact with the system.
+Run the following (from the project's root directory):
+```bash
+python atlas/resources/refresh_db.py
+```
+
+Additionally if you want to backup your current database's state, run the following (from the project's root directory):
+```bash
+python atlas/resources/backup_db.py
+```
 
 # Helpful Commands
 Run this command to display the project's dependencies as a tree structure (pipdeptree comes pre-configured as a dependency on this project)
