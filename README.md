@@ -1,6 +1,7 @@
 # Atlas
-The Atlas API is an internal REST based project management service. It uses HTTP methods and a RESTful endpoint structure. 
-The API authorization framework is OAuth.
+The Atlas API is an internal project management service for my personal and 8BitGhost projects. Most of the endpoints
+are private but it does expose a small public API which is consumed by my portfolio website. It uses HTTP methods and 
+a RESTful endpoint structure. The API authorization framework is OAuth. The current API version is beta.
 
 Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 
