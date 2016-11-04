@@ -191,12 +191,14 @@ python manage.py createsuperuser
 Once you have your local development environment running you will want to load your database with test data so that you can interact with the system.
 Run the following (from the project's root directory):
 ```bash
-python atlas/resources/refresh_db.py
+cd .atlas/resources/
+python refresh_db.py
 ```
 
 Additionally if you want to backup your current database's state, run the following (from the project's root directory):
 ```bash
-python atlas/resources/backup_db.py
+atlas/resources/
+python backup_db.py
 ```
 
 # Helpful Commands
