@@ -13,7 +13,7 @@ stages:
 build_job:
   type: build
   before_script:
-#    - export DATABASE_URL=postgres://postgres:@postgres:5432/atlas-api-db
+    - export DATABASE_URL=postgres://postgres:@postgres:5432/atlas-api-db
     - pip install -r requirements.txt
     - python manage.py migrate
 
