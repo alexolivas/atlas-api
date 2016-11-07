@@ -5,6 +5,8 @@ a RESTful endpoint structure. The API authorization framework is OAuth. The curr
 
 Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 
+[![build status](https://gitlab.com/alexolivas/atlas/badges/master/build.svg)](https://gitlab.com/alexolivas/atlas/commits/master)
+[![coverage report](https://gitlab.com/alexolivas/atlas/badges/master/coverage.svg)](https://gitlab.com/alexolivas/atlas/commits/master)
 [![wercker status](https://app.wercker.com/status/d873eeb709dfd4ad6b48edebe3823336/s/master "wercker status")](https://app.wercker.com/project/bykey/d873eeb709dfd4ad6b48edebe3823336)
 [![Dependency Status](https://gemnasium.com/alexolivas/django-rest-starter.svg)](https://gemnasium.com/alexolivas/django-rest-starter)
 
