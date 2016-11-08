@@ -1,7 +1,3 @@
-#image: python:2.7
-#services:
-#  - postgres:9.5
-
 stages:
   - test
   - deploy
@@ -16,26 +12,39 @@ test:
     - pip install -r requirements.txt
     - python manage.py test
 
-# This environment contains stage release candidate code
-stage deployment:
+# This job is responsible for deploying the latest features in development to the development
+# stage environment
+stage dev deployment:
   type: deploy
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_DEV_APPNAME --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=$HEROKU_DEV_APP --api-key=$HEROKU_API_KEY
+  only:
+  - stage-dev
+
+# This job is responsible for patching the the release candidate environment in case a bug is
+# found during RC testing
+release candidate patch:
+  type: deploy
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_STAGE_RC_APP --api-key=$HEROKU_API_KEY
   only:
   - stage-rc
 
-# This environment is an exact replica of production and is used to patch
-hotfix deployment:
+# This job is responsible for patching the hotfix (production copy) environment
+hotfix patch:
   type: deploy
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_PROD_COPY_APPNAME --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=$HEROKU_HOTFIX_APP --api-key=$HEROKU_API_KEY
   only:
-  - master
+  - hotfix
 
 # TODO: READ >> https://gitlab.com/help/ci/yaml/README.md#environment
