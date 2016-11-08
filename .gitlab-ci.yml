@@ -1,6 +1,6 @@
 image: python:2.7
-services:
-  - postgres:9.5
+#services:
+#  - postgres:9.5
 
 stages:
   - build
@@ -16,14 +16,15 @@ build_job:
     - export DATABASE_URL=postgres://postgres:@postgres:5432/atlas-api-db
     - pip install -r requirements.txt
     - python manage.py migrate
+    - python manage.py test
 
-test_job:
-  type: test
-  script:
+#test_job:
+#  type: test
+#  script:
     # - apt-get update -qy
     # - apt-get install -y python-dev python-pip
 #    - pip install -r requirements.txt
-    - python manage.py test
+#    - python manage.py test
 
 # ===========================================================
 # Everything below this line is what was here before
