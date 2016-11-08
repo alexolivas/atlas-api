@@ -23,8 +23,9 @@ test:
 stage deployment:
   type: deploy
   script:
-    - apt-get update -qy
-    - apt-get install -y ruby-dev
+#    - apt-get update -qy
+#    - apt-get install -y ruby-dev
+    - apt-get install rubygems
     - gem install dpl
     - dpl --provider=heroku --app=atlas11-stage --api-key=$HEROKU_API_KEY
   only:
