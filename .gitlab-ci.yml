@@ -5,12 +5,11 @@ stages:
 test:
   type: test
   script:
-  # this configures Django application to use attached postgres database that is run on `postgres` host
-  # - export DATABASE_URL=postgres://postgres:@postgres:5432/atlas-api-db
+  # - export DATABASE_URL=sqlite://atlas-api-db.sqlite3
     - apt-get update -qy
     - apt-get install -y python-dev python-pip
     - pip install -r requirements.txt
-    - python manage.py test
+    - python manage.py test -v 2
 
 stage deployment:
   type: deploy
