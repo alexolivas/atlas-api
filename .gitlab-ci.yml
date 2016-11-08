@@ -16,6 +16,7 @@ test:
     - pip install -r requirements.txt
     - python manage.py test
 
+# This environment contains stage release candidate code
 stage deployment:
   type: deploy
   script:
@@ -24,8 +25,9 @@ stage deployment:
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_DEV_APPNAME --api-key=$HEROKU_API_KEY
   only:
-  - master
+  - stage-rc
 
+# This environment is an exact replica of production and is used to patch
 hotfix deployment:
   type: deploy
   script:
@@ -34,6 +36,6 @@ hotfix deployment:
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_PROD_COPY_APPNAME --api-key=$HEROKU_API_KEY
   only:
-  - tags
+  - master
 
 # TODO: READ >> https://gitlab.com/help/ci/yaml/README.md#environment
