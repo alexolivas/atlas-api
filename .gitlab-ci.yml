@@ -13,17 +13,27 @@ stages:
 #variables:
 #  DATABASE_URL: "postgres://postgres@postgres/atlas"
 
-unit test:
+test:
   type: test
 #  before_script:
   script:
     - pip install -r requirements.txt
     - python manage.py test
 
-integration test:
-  type: test
+stage deployment:
+  type: deploy
   script:
-    - python manage.py test
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=atlas11-stage --api-key=$HEROKU_API_KEY
+  only:
+  - master
+
+#integration test:
+#  type: test
+#  script:
+#    - python manage.py test
 
 #test_job:
 #  type: test
