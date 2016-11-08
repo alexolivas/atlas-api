@@ -2,16 +2,9 @@
 #services:
 #  - postgres:9.5
 
-#before_script:
-#  - pip install --upgrade pip
-
 stages:
-  - build
   - test
   - deploy
-
-#variables:
-#  DATABASE_URL: "postgres://postgres@postgres/atlas"
 
 test:
   type: test
@@ -23,6 +16,7 @@ test:
     - pip install -r requirements.txt
     - python manage.py test
 
+# This environment contains stage release candidate code
 stage deployment:
   type: deploy
   script:
@@ -31,8 +25,9 @@ stage deployment:
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_DEV_APPNAME --api-key=$HEROKU_API_KEY
   only:
-  - master
+  - stage-rc
 
+# This environment is an exact replica of production and is used to patch
 hotfix deployment:
   type: deploy
   script:
@@ -41,39 +36,6 @@ hotfix deployment:
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_PROD_COPY_APPNAME --api-key=$HEROKU_API_KEY
   only:
-  - tags
-
-# ===========================================================
-# Everything below this line is what was here before
-# ===========================================================
-
-#test:
-#  script:
-#  # this configures Django application to use attached postgres database that is run on `postgres` host
-#  # - export DATABASE_URL=postgres://postgres:@postgres:5432/atlas-api-db
-#    - apt-get update -qy
-#    - apt-get install -y python-dev python-pip
-#    - pip install -r requirements.txt
-#    - python manage.py test
-
-#staging:
-#  type: deploy
-#  script:
-#    - apt-get update -qy
-#    - apt-get install -y ruby-dev
-#    - gem install dpl
-#    - dpl --provider=heroku --app=atlas11-stage --api-key=$HEROKU_API_KEY
-#  only:
-#  - master
-
-#production:
-#  type: deploy
-#  script:
-#  - apt-get update -qy
-#  - apt-get install -y ruby-dev
-#  - gem install dpl
-#  - dpl --provider=heroku --app=gitlab-ci-python-test-prod --api-key=$HEROKU_PRODUCTION_API_KEY
-#  only:
-#  - tags
+  - master
 
 # TODO: READ >> https://gitlab.com/help/ci/yaml/README.md#environment
