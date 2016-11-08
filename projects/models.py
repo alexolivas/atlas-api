@@ -22,9 +22,14 @@ class Project(models.Model):
     release_instructions = HTMLField(blank=True, null=True)
     repo_url = models.URLField(blank=True, null=True)
     stage_url = models.URLField(blank=True, null=True)
-    heroku_pipeline_url = models.URLField(blank=True, null=True)
     production_url = models.URLField(blank=True, null=True)
     technology = models.ManyToManyField(Technology)
+    server_provider = models.CharField(max_length=25, blank=True, null=True)
+    server_main_account = models.CharField(max_length=50, blank=True, null=True)
+    server_console = models.URLField(blank=True, null=True)
+    domain_provider = models.CharField(max_length=25, blank=True, null=True)
+    domain_provider_account = models.CharField(max_length=50, blank=True, null=True)
+    domain_provider_console = models.URLField(blank=True, null=True)
 
     def __unicode__(self):
         return self.name
