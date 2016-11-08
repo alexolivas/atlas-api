@@ -1,4 +1,4 @@
-image: python:2.7
+#image: python:2.7
 #services:
 #  - postgres:9.5
 
@@ -15,19 +15,21 @@ stages:
 
 test:
   type: test
-#  before_script:
   script:
+  # this configures Django application to use attached postgres database that is run on `postgres` host
+  # - export DATABASE_URL=postgres://postgres:@postgres:5432/atlas-api-db
+    - apt-get update -qy
+    - apt-get install -y python-dev python-pip
     - pip install -r requirements.txt
     - python manage.py test
 
 stage deployment:
   type: deploy
   script:
-#    - apt-get update -qy
-#    - apt-get install -y ruby-dev
-    - apt-get install rubygems
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
     - gem install dpl
-    - dpl --provider=heroku --app=atlas11-stage --api-key=$HEROKU_API_KEY
+    - dpl --provider=heroku --app=$HEROKU_STAGE_APPNAME --api-key=$HEROKU_API_KEY
   only:
   - master
 
