@@ -2,8 +2,8 @@
 #services:
 #  - postgres:9.5
 
-before_script:
-  - pip install --upgrade pip
+#before_script:
+#  - pip install --upgrade pip
 
 stages:
   - build
@@ -20,6 +20,7 @@ test:
   # - export DATABASE_URL=postgres://postgres:@postgres:5432/atlas-api-db
     - apt-get update -qy
     - apt-get install -y python-dev python-pip
+#    - pip install --upgrade pip
     - pip install -r requirements.txt
     - python manage.py test
 
@@ -28,6 +29,7 @@ stage deployment:
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
+#    - pip install --upgrade pip
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_STAGE_APPNAME --api-key=$HEROKU_API_KEY
   only:
