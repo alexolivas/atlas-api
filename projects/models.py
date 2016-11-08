@@ -19,8 +19,10 @@ class Project(models.Model):
     # photo_3 = models.FileField(upload_to='photos', blank=True, null=True)
     description = HTMLField(blank=True, null=True)
     technology_description = HTMLField(blank=True, null=True)
+    release_instructions = HTMLField(blank=True, null=True)
     repo_url = models.URLField(blank=True, null=True)
     stage_url = models.URLField(blank=True, null=True)
+    heroku_pipeline_url = models.URLField(blank=True, null=True)
     production_url = models.URLField(blank=True, null=True)
     technology = models.ManyToManyField(Technology)
 
