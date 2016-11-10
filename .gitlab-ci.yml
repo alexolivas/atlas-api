@@ -24,7 +24,9 @@ stage dev deployment:
     - gem install dpl
     - dpl --provider=heroku --app=$HEROKU_DEV_APP --api-key=$HEROKU_API_KEY
     - heroku run python manage.py migrate --exit-code --app $HEROKU_DEV_APP
-    - heroku run python atlas/resources/data/backup/restore_db.py
+    - heroku run python atlas/resources/refresh_db.py --app $HEROKU_DEV_APP
+    # This is only here to test the git command
+    - heroku run python atlas/resources/data/backup/restore_db.py --app $HEROKU_DEV_APP
   only:
   - master
 
