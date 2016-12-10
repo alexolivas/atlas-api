@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_docs',
     'rest_framework.authtoken',
+    'corsheaders',
     'tinymce',
     'authentication',
     'web',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -147,3 +149,18 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
+
+# CORS Settings (copy these settings over to django-rest project)
+
+CORS_ORIGIN_WHITELIST = (
+    os.environ.get('CORS_ORIGIN_WHITELIST')
+)
+
+#CORS_ALLOW_HEADERS = (
+#    'x-requested-with',
+#    'content-type',
+#    'accept',
+#    'origin',
+#    'authorization',
+#    'x-csrftoken'
+#)
