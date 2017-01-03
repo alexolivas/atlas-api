@@ -20,7 +20,7 @@ class CareerSnapshot(models.Model):
     description = HTMLField(blank=True, null=True)
 
     class Meta:
-        db_table = "career_position"
+        db_table = "career_snapshot"
 
     def __unicode__(self):
         return self.title
