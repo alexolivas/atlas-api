@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.db import models
 from tinymce.models import HTMLField
 from accounts.models import Account
-from web.models import Technology
+from web.models import TechnicalSkill
 
 
 class Project(models.Model):
@@ -23,7 +23,7 @@ class Project(models.Model):
     repo_url = models.URLField(blank=True, null=True)
     stage_url = models.URLField(blank=True, null=True)
     production_url = models.URLField(blank=True, null=True)
-    technology = models.ManyToManyField(Technology)
+    technology = models.ManyToManyField(TechnicalSkill)
     cloud_platform = models.CharField(max_length=25, blank=True, null=True)
     cloud_platform_account = models.CharField(max_length=50, blank=True, null=True)
     cloud_platform_console = models.URLField(blank=True, null=True)

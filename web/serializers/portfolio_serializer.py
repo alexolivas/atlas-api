@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from projects.models import Project
-from web.serializers.technology_serializer import TechnologySerializer
+from web.serializers.technology_serializer import TechnicalSkillSerializer
 
 
 class PortfolioSerializer(serializers.ModelSerializer):
-    technology = TechnologySerializer(read_only=True, many=True)
+    technology = TechnicalSkillSerializer(read_only=True, many=True)
 
     class Meta:
         model = Project

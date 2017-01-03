@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from projects.models import Project
 from accounts.serializers.account_overview_serializer import AccountOverviewSerializer
-from web.serializers.technology_serializer import TechnologySerializer
+from web.serializers.technology_serializer import TechnicalSkillSerializer
 
 
 class ProjectSerializer(serializers.ModelSerializer):
     account = AccountOverviewSerializer()
-    technology = TechnologySerializer(read_only=True, many=True)
+    technology = TechnicalSkillSerializer(read_only=True, many=True)
 
     class Meta:
         model = Project
