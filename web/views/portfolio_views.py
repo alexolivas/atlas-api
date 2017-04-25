@@ -9,6 +9,18 @@ from web.serializers.portfolio_detail_serializer import PortfolioDetailSerialize
 from web.serializers.portfolio_serializer import PortfolioSerializer
 
 
+class ListFeaturedProjects(ListAPIView):
+    """
+    This endpoint returns a list of 3 featured projects in random order
+    """
+    permission_classes = (AllowAny,)
+    queryset = Project.objects.filter(display_on_website=True, featured_project=True).order_by('?')[:3]
+    serializer_class = PortfolioSerializer
+
+    def get_queryset(self):
+        return self.queryset
+
+
 class ListProjects(ListAPIView):
     """
     This endpoint returns a list of projects selected to be viewed on my portfolio website
