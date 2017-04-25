@@ -70,6 +70,7 @@ class Expertise(models.Model):
         (LEARNING, 'Learning'),
     )
     area = models.CharField(max_length=2, choices=EXPERTISE_AREA_CHOICES, default=BACKEND)
+    font_awesome_icon = models.CharField(max_length=90, blank=True, null=True)
     description = HTMLField()
 
     class Meta:
