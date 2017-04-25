@@ -3,7 +3,6 @@ from models import AboutInfo
 from models import CareerSnapshot
 # from models import CareerSnapshotAchievement
 # from models import Technology
-from models import TechnologyStack
 from models import TechnicalSkill
 from models import Expertise
 
