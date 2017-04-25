@@ -6,7 +6,7 @@ from web.models import AboutInfo
 from web.serializers.about_info_serializer import AboutInfoSerializer
 
 
-class AboutInfo(APIView):
+class AboutInfoDetails(APIView):
     """
     This endpoint returns the "about info" to display on the about section of the website
     """
