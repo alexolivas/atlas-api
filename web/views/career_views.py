@@ -4,30 +4,30 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from projects.models import Project
-from web.serializers.portfolio_serializer import PortfolioSerializer
+from web.models import CareerSnapshot
+from web.serializers.career_snapshot_serializer import CareerSnapshotSerializer
 
 
 class ResumeTimeline(APIView):
     """
-    This endpoint returns a list of projects selected to be viewed on my portfolio website
+    This endpoint returns my resume: career highlights such as jobs or promotions
     """
     permission_classes = (AllowAny,)
 
-    @staticmethod
-    def get_project(pk):
-        try:
-            return Project.objects.get(pk=pk, display_on_website=True)
-        except Project.DoesNotExist:
-            raise Http404
+    # @staticmethod
+    # def get_resume():
+    #     try:
+    #         return Project.objects.get(pk=pk, display_on_website=True)
+    #     except Project.DoesNotExist:
+    #         raise Http404
 
     def get(self, request, format=None):
         """
-        Return of a list of all active projects selected to appear on my portfolio website
+        Return of a list of my career highlights
         :param request:
         :param format:
         :return: JSON object array containing project details
         """
-        projects = Project.objects.filter(display_on_website=True)
-        projects_serializer = PortfolioSerializer(projects, many=True)
-        return Response(projects_serializer.data, status=status.HTTP_200_OK)
+        resume = CareerSnapshot.objects.filter(active=True).order_by('-year', '-month')
+        career_snapshot_serializer = CareerSnapshotSerializer(resume, many=True)
+        return Response(career_snapshot_serializer.data, status=status.HTTP_200_OK)

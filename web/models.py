@@ -4,7 +4,7 @@ from tinymce.models import HTMLField
 
 
 class CareerSnapshot(models.Model):
-    title = models.CharField(max_length=150)
+    company = models.CharField(max_length=150)
     position = models.CharField(max_length=150)
     location = models.CharField(max_length=150)
     active = models.BooleanField(default=True)
@@ -23,7 +23,7 @@ class CareerSnapshot(models.Model):
         db_table = "career_snapshot"
 
     def __unicode__(self):
-        return self.title
+        return self.company
 
 
 class AboutInfo(models.Model):

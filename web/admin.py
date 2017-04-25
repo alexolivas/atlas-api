@@ -9,7 +9,7 @@ from models import Expertise
 
 
 class CareerSnapshotAdmin(admin.ModelAdmin):
-    list_display = ('title', 'snapshot_type', 'position', 'location',)
+    list_display = ('company', 'snapshot_type', 'position', 'location',)
 admin.site.register(CareerSnapshot, CareerSnapshotAdmin)
 
 
