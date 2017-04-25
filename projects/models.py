@@ -13,6 +13,7 @@ class Project(models.Model):
     display_on_website = models.BooleanField(default=True)
     featured_project = models.BooleanField(default=False)
     retired = models.BooleanField(default=False)
+    tech_stack_display = models.CharField(max_length=75, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
     main_photo = models.FileField(upload_to='photos', blank=True, null=True)
     # photo_1 = models.FileField(upload_to='photos', blank=True, null=True)

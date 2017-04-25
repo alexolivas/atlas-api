@@ -13,5 +13,8 @@ class PortfolioSerializer(serializers.ModelSerializer):
             'name',
             'main_photo',
             'production_url',
-            'technology'
+            'technology',
+            'tech_stack_display',
+            'description',
+            'technology_description'
         )
