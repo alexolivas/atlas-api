@@ -1,14 +1,17 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 from web.views.portfolio_views import ListProjects, ProjectDetails
-from web.views.about_views import AboutInfoDetails
+from web.views.about_views import *
 from web.views.career_views import ResumeTimeline
-from web.views.expertise_views import ExpertiseDetails
 
 
 urlpatterns = [
     url(r'^about/expertise/$', ExpertiseDetails.as_view(), name='expertise'),
     url(r'^about/info/$', AboutInfoDetails.as_view(), name='about'),
+    url(r'^about/skills/programming/$', ProgrammingDetails.as_view(), name='programming_details'),
+    url(r'^about/skills/tools/$', DevelopmentToolDetails.as_view(), name='deployment_tool_details'),
+    url(r'^about/skills/data/$', DataStorageDetails.as_view(), name='data_storage_details'),
+    url(r'^about/skills/deployment/$', DeploymentDetails.as_view(), name='deployment_details'),
     url(r'^career/resume/$', ResumeTimeline.as_view(), name='resume'),
     url(r'^portfolio/projects/$', ListProjects.as_view(), name='portfolio_projects'),
     url(r'^portfolio/projects/(\d+)/$', ProjectDetails.as_view(), name='portfolio_project_details'),

@@ -41,11 +41,13 @@ class TechnicalSkill(models.Model):
     PROGRAMMING_LANGUAGE = '01'
     DATA = '02'
     DEPLOYMENT = '03'
+    DEV_TOOL = '04'
     TECHNICAL_SKILL_CHOICES = (
         (FRAMEWORK, 'Framework'),
         (PROGRAMMING_LANGUAGE, 'Programming Language'),
         (DATA, 'Data'),
         (DEPLOYMENT, 'Deployment'),
+        (DEV_TOOL, 'Development Tool'),
     )
     name = models.CharField(max_length=90)
     skill_type = models.CharField(max_length=2, choices=TECHNICAL_SKILL_CHOICES, default=FRAMEWORK)
