@@ -1,8 +1,11 @@
 from rest_framework import serializers
 from projects.models import Project
+from web.serializers.technology_serializer import TechnicalSkillSerializer
 
 
+# TODO: Delete this and only keep PortfolioSerializer
 class PortfolioDetailSerializer(serializers.ModelSerializer):
+    technology = TechnicalSkillSerializer(read_only=True, many=True)
 
     class Meta:
         model = Project
