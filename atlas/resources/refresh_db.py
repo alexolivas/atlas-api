@@ -8,8 +8,8 @@ os.chdir(project_dir)
 # DO NOT RUN THIS IN PRODUCTION!!
 if os.environ.get('DATA_REFRESH', False):
     # Drop the existing data
-    print('[Flushing Data]')
-    os.system('./manage.py flush --noinput')
+    # print('[Flushing Data]')
+    # os.system('./manage.py flush --noinput')
 
     # Restore this environment's database back to the development/stage state
     print('[Running Data Refresh]')
