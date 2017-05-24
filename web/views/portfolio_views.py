@@ -5,7 +5,6 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from projects.models import Project
-from web.serializers.portfolio_detail_serializer import PortfolioDetailSerializer
 from web.serializers.portfolio_serializer import PortfolioSerializer
 
 
@@ -47,5 +46,5 @@ class ProjectDetails(APIView):
             raise Http404
 
     def get(self, request, pk, format=None):
-        project = PortfolioDetailSerializer(self.get_project(pk))
+        project = PortfolioSerializer(self.get_project(pk))
         return Response(project.data, status=status.HTTP_200_OK)
