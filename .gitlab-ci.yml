@@ -8,6 +8,8 @@ test:
     - apt-get update -qy
     - apt-get install -y python-dev python-pip
     - pip install -r requirements.txt
+    - python manage.py makemigrations
+    - python manage.py migrate
     - python manage.py test -v 2
 
 # This job is responsible for refreshing the development stage environment after every commit to master
