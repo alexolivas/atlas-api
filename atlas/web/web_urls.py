@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
-from web.views.about_views import *
-from web.views.portfolio_views import ListFeaturedProjects, ListProjects, ProjectDetails
+from atlas.web.views.about_views import *
+from atlas.web.views.portfolio_views import ListFeaturedProjects, ListProjects, ProjectDetails
 
 from atlas.web.views.career_views import ResumeTimeline
 

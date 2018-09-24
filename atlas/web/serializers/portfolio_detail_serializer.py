@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from atlas.projects import Project
+from atlas.projects.models import Project
 from atlas.web.serializers.technology_serializer import TechnicalSkillSerializer
 
 

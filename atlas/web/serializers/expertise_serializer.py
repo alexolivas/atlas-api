@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from atlas.web import Expertise
+from atlas.web.models import Expertise
 
 
 class ExpertiseSerializer(serializers.ModelSerializer):

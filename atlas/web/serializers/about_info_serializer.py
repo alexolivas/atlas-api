@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from atlas.web import AboutInfo
+from atlas.web.models import AboutInfo
 
 
 class AboutInfoSerializer(serializers.ModelSerializer):

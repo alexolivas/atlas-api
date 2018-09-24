@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from atlas.projects import Project
+from atlas.projects.models import Project
 from atlas.web.serializers.portfolio_serializer import PortfolioSerializer
 
 

@@ -1,10 +1,10 @@
 from django.contrib import admin
-from models import AboutInfo
-from models import CareerSnapshot
+from atlas.web.models import AboutInfo
+from atlas.web.models import CareerSnapshot
 # from models import CareerSnapshotAchievement
 # from models import Technology
-from models import TechnicalSkill
-from models import Expertise
+from atlas.web.models import TechnicalSkill
+from atlas.web.models import Expertise
 
 
 class CareerSnapshotAdmin(admin.ModelAdmin):

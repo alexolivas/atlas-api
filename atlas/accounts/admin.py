@@ -1,6 +1,6 @@
 from django.contrib import admin
-from models import Account
-from models import AccountOwner
+from atlas.accounts.models import Account
+from atlas.accounts.models import AccountOwner
 
 
 class AccountAdmin(admin.ModelAdmin):

@@ -1,7 +1,7 @@
 from django.http import Http404
 from django_filters.rest_framework import DjangoFilterBackend
-from projects.models import Project
-from projects.serializers.project_serializer import ProjectSerializer
+from atlas.projects.models import Project
+from atlas.projects.serializers.project_serializer import ProjectSerializer
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from atlas.projects.filters import ProjectFilter
+# from atlas.projects.filters import ProjectFilter
 
 
 class ListProjects(ListAPIView):
@@ -22,7 +22,7 @@ class ListProjects(ListAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     filter_backends = (SearchFilter, OrderingFilter, DjangoFilterBackend)
-    filter_class = ProjectFilter
+    # filter_class = ProjectFilter
     search_fields = ('name',)
     ordering_fields = ('name', 'account')
 

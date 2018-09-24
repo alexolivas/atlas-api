@@ -2,8 +2,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from web.models import CareerSnapshot
 
+from atlas.web.models import CareerSnapshot
 from atlas.web.serializers.career_snapshot_serializer import CareerSnapshotSerializer
 
 

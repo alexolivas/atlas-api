@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from atlas.web import CareerSnapshot
+from atlas.web.models import CareerSnapshot
 
 
 class CareerSnapshotSerializer(serializers.ModelSerializer):
