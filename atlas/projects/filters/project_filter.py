@@ -1,6 +1,7 @@
 import django_filters
 from django_filters.rest_framework import FilterSet
-from projects.models import Project
+
+from atlas.projects import Project
 
 
 class ProjectFilter(FilterSet):

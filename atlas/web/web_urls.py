@@ -1,9 +1,9 @@
 from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
-from web.views.portfolio_views import ListFeaturedProjects, ListProjects, ProjectDetails
 from web.views.about_views import *
-from web.views.career_views import ResumeTimeline
+from web.views.portfolio_views import ListFeaturedProjects, ListProjects, ProjectDetails
 
+from atlas.web.views.career_views import ResumeTimeline
 
 urlpatterns = [
     url(r'^about/expertise/$', ExpertiseDetails.as_view(), name='expertise'),

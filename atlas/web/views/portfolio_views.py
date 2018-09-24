@@ -4,8 +4,9 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from projects.models import Project
-from web.serializers.portfolio_serializer import PortfolioSerializer
+
+from atlas.projects import Project
+from atlas.web.serializers.portfolio_serializer import PortfolioSerializer
 
 
 class ListFeaturedProjects(ListAPIView):

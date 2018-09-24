@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from accounts.models import Account
+
+from atlas.accounts import Account
 
 
 class AccountSerializer(serializers.ModelSerializer):

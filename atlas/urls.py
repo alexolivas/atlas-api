@@ -1,9 +1,9 @@
 from django.conf.urls import include, url
 from django.contrib import admin
-from authentication import auth_urls
-from projects import project_urls
-from web import web_urls
 
+from atlas.authentication import auth_urls
+from atlas.projects import project_urls
+from atlas.web import web_urls
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

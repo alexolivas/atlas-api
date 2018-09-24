@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from web.models import TechnicalSkill
+
+from atlas.web import TechnicalSkill
 
 
 class TechnicalSkillSerializer(serializers.ModelSerializer):

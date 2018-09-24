@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import projects.models
 
 
 class Migration(migrations.Migration):
@@ -21,51 +20,51 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='project',
             name='main_photo',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
         migrations.AlterField(
             model_name='project',
             name='photo_1',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
         migrations.AlterField(
             model_name='project',
             name='photo_2',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
         migrations.AlterField(
             model_name='project',
             name='photo_3',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
         migrations.AlterField(
             model_name='project',
             name='photo_4',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
         migrations.AlterField(
             model_name='project',
             name='photo_5',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
         migrations.AlterField(
             model_name='project',
             name='photo_6',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
         migrations.AlterField(
             model_name='project',
             name='photo_7',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
         migrations.AlterField(
             model_name='project',
             name='photo_8',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
         migrations.AlterField(
             model_name='project',
             name='photo_9',
-            field=models.FileField(blank=True, null=True, upload_to=projects.models.s3_bucket_photo_upload),
+            field=models.FileField(blank=True, null=True, upload_to=atlas.projects.models.s3_bucket_photo_upload),
         ),
     ]

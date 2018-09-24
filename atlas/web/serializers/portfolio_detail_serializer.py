@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from projects.models import Project
-from web.serializers.technology_serializer import TechnicalSkillSerializer
+
+from atlas.projects import Project
+from atlas.web.serializers.technology_serializer import TechnicalSkillSerializer
 
 
 # TODO: Delete this and only keep PortfolioSerializer

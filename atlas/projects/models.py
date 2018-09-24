@@ -1,12 +1,15 @@
 from __future__ import unicode_literals
-from django.db import models
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from tinymce.models import HTMLField
-from accounts.models import Account
-from web.models import TechnicalSkill
-from PIL import Image
+
 import StringIO
 import os
+
+from PIL import Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db import models
+from tinymce.models import HTMLField
+
+from atlas.accounts import Account
+from atlas.web import TechnicalSkill
 
 
 def s3_bucket_photo_upload(instance, filename):

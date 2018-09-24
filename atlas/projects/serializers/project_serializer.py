@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from projects.models import Project
-from accounts.serializers.account_overview_serializer import AccountOverviewSerializer
-from web.serializers.technology_serializer import TechnicalSkillSerializer
+
+from atlas.accounts import AccountOverviewSerializer
+from atlas.projects import Project
+from atlas.web.serializers.technology_serializer import TechnicalSkillSerializer
 
 
 class ProjectSerializer(serializers.ModelSerializer):

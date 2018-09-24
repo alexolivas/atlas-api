@@ -6,8 +6,9 @@ from web.models import AboutInfo
 from web.models import Expertise
 from web.models import TechnicalSkill
 from web.serializers.about_info_serializer import AboutInfoSerializer
-from web.serializers.expertise_serializer import ExpertiseSerializer
 from web.serializers.technology_serializer import TechnicalSkillSerializer
+
+from atlas.web.serializers.expertise_serializer import ExpertiseSerializer
 
 
 class AboutInfoDetails(APIView):

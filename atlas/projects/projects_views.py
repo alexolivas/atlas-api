@@ -1,5 +1,7 @@
 from django.http import Http404
 from django_filters.rest_framework import DjangoFilterBackend
+from projects.models import Project
+from projects.serializers.project_serializer import ProjectSerializer
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -7,9 +9,8 @@ from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from projects.models import Project
-from projects.serializers.project_serializer import ProjectSerializer
-from projects.filters.project_filter import ProjectFilter
+
+from atlas.projects.filters import ProjectFilter
 
 
 class ListProjects(ListAPIView):
