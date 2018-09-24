@@ -18,7 +18,7 @@ def s3_bucket_photo_upload(instance, filename):
 
 class Project(models.Model):
     name = models.CharField(max_length=150, unique=True)
-    account = models.ForeignKey(Account, blank=True, null=True)
+    account = models.ForeignKey(Account, blank=True, null=True, on_delete=models.CASCADE)
     active_development = models.BooleanField(default=True)
     project_completed = models.BooleanField(default=False)
     display_on_website = models.BooleanField(default=True)

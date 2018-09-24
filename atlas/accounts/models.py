@@ -5,7 +5,7 @@ from django.db import models
 class Account(models.Model):
     name = models.CharField(max_length=150)
     account_number = models.CharField(max_length=20, unique=True, blank=True, null=True)
-    account_owner = models.ForeignKey('AccountOwner')
+    account_owner = models.ForeignKey('AccountOwner', on_delete=models.CASCADE)
     industry = models.CharField(max_length=50)
     phone = models.CharField(max_length=25, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
