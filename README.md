@@ -3,6 +3,9 @@ The Atlas API is an internal project management service for my personal and 8Bit
 are private but it does expose a small public API which is consumed by my portfolio website. It uses HTTP methods and 
 a RESTful endpoint structure. The API authorization framework is OAuth. The current API version is beta.
 
+## Everything below needs to be revised
+The majority of this README file should be deprecated because it hasn't been revisited in a long time. I need to research how to setup and run a django rest project locally with minimal resources e.g. inside a docker container.
+
 Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 
 [![build status](https://gitlab.com/alexolivas/atlas/badges/master/build.svg)](https://gitlab.com/alexolivas/atlas/commits/master)
