@@ -3,10 +3,44 @@ The Atlas API is an internal project management service for my personal and 8Bit
 are private but it does expose a small public API which is consumed by my portfolio website. It uses HTTP methods and 
 a RESTful endpoint structure. The API authorization framework is OAuth. The current API version is beta.
 
-## Everything below needs to be revised
-The majority of this README file should be deprecated because it hasn't been revisited in a long time. I need to research how to setup and run a django rest project locally with minimal resources e.g. inside a docker container.
-
+## API Documentation
 Visit the [api docs](http://django-rest-starter.herokuapp.com/)
+
+# Getting Started
+The first step to start working on this project is to clone the repository onto your computer:
+```bash
+$ git clone https://gitlab.com/alexolivas/atlas
+```
+
+Next create an environment variables file 
+```bash
+$ vi .env
+```
+
+and populate it with the following (generate the SECRET_KEY with a tool like 1password: 50 characters) environment variables. It is important that these variables exist so that the application can run
+```
+SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+DEBUG=True
+DATABASE_URL='postgres://<db-user>@localhost:5432/<db_name>'
+ALLOWED_HOSTS=<your_host_url>
+CORS_ORIGIN_WHITELIST=<your_cors_hosts>
+DATA_REFRESH=<TRUE OR FALSE - Do not use in production>
+```
+
+## -----------------------------
+
+## Add a section for keeping dependencies up to date
+https://wakatime.com/blog/22-keeping-your-pip-requirements-fresh
+```bash
+$ pur -r requirements.txt
+```
+
+## Everything below needs to be revised
+The majority of this README file should be deprecated because it hasn't been revisited in a long time. I need to research how to setup and run a django rest project locally with minimal resources e.g. inside a docker container. I'm using the following instructions https://medium.com/backticks-tildes/how-to-dockerize-a-django-application-a42df0cb0a99 to dockerize this app
+
+docker-compose up
+
+## DEPRECATED
 
 [![build status](https://gitlab.com/alexolivas/atlas/badges/master/build.svg)](https://gitlab.com/alexolivas/atlas/commits/master)
 [![coverage report](https://gitlab.com/alexolivas/atlas/badges/master/coverage.svg)](https://gitlab.com/alexolivas/atlas/commits/master)

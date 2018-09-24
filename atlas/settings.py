@@ -41,11 +41,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'tinymce',
-    'authentication',
-    'web',
-    'accounts',
-    'projects',
-    'apps',
+    'atlas.authentication',
+    'atlas.web',
+    'atlas.accounts',
+    'atlas.projects',
+    'atlas.apps',
 ]
 
 MIDDLEWARE = [
