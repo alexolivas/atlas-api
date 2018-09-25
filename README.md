@@ -10,7 +10,7 @@ Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 
 - [Getting Started](#getting-started)
 - [Development Environment](#development-environment)
-    - [Install demo data](#install-demo-data)
+    - [Demo Data](#demo-data)
 - [Development](#development)
 - [Release Process](#release-process)
 - [Helpful Commands](#helpful-commands)
@@ -32,32 +32,30 @@ This service is run inside a [docker](https://www.docker.com/)docker container t
 $ cd <repo-directory>/atlas
 ```
 
-Create an environment variables file at the root
-```bash
-$ vi .env
-```
-
-Populate it with the following (generate the SECRET_KEY with a tool like 1password: 50 characters) environment variables. It is important that these variables exist so that the application can run
-```
-SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-DEBUG=True
-DATABASE_URL='postgres://<db-user>:<db-user-password>@localhost:5432/<db-name>'
-ALLOWED_HOSTS=[<your_host_url>]
-CORS_ORIGIN_WHITELIST=<your_cors_hosts>
-```
-
-TODO: I still need to implement this postgres section!
-
-Create an environment variables file for the postgres container
+Create an environment variables file at the root for the postgres container
 ```bash
 $ vi .postgres-env
 ```
 
-Populate it with the following data, generate a new 15 character password specific to your environment
+Populate it with the following data, generate a new 15 character password specific to your environment. Note these values will be required to generate the DATABASE_URL in the next step
 ```
 POSTGRES_USER: atlasuser
 POSTGRES_PASSWORD: XXXXXXXXXXXXXXX
 POSTGRES_DB: atlas_db
+```
+
+Create a second environment variables file at the root for the django application
+```bash
+$ vi .env
+```
+
+Populate it with the following environment variables, generate the SECRET_KEY with a tool like 1password: 50 characters. It is important that these variables exist so that the application can run. 
+```
+SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+DEBUG=True
+DATABASE_URL='postgres://<POSTGRES_USER>:<POSTGRES_PASSWORD>@localhost:5432/<POSTGRES_DB>'
+ALLOWED_HOSTS=['*']
+CORS_ORIGIN_WHITELIST='*'
 ```
 
 This project is setup to run inside docker. It consists of two images, the django project and the postgres database. Run the following command to build the project for the first time (or anytime you want to start fresh)
@@ -65,9 +63,14 @@ This project is setup to run inside docker. It consists of two images, the djang
 $ docker-compose up --build
 ```
 
-## Install demo data
+## Demo Data
 
-TODO: I need to figure this part out still. Something like installing demo data.
+Once you have your local development environment running you will want to load your database with test data so that you can interact with the system.
+Run the following (from the project's root directory):
+```bash
+cd /atlas/resources/
+python refresh_db.py
+```
 
 # Development
 This project uses gitflow
@@ -128,12 +131,7 @@ GRANT ALL PRIVILEGES ON DATABASE <database-name> TO <db-user>;
 
 
 ## Data
-Once you have your local development environment running you will want to load your database with test data so that you can interact with the system.
-Run the following (from the project's root directory):
-```bash
-cd /atlas/resources/
-python refresh_db.py
-```
+
 
 Additionally if you want to backup your current database's state, run the following (from the project's root directory):
 ```bash
