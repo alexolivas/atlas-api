@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+  # Create and .env file for postgres container just like the web service
   atlas-postgres-db:
     container_name: atlas-postgres-db
     image: postgres
