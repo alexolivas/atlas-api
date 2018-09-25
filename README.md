@@ -148,6 +148,20 @@ Run this command to update any outdated pip dependencies. See this [blog](https:
 $ pur -r requirements.txt
 ```
 
-
 ## Release Process
-TODO Add this
+To setup bitbucket pipelines you have to add the following pipeline environment variables
+
+| Environment Variable  | Value                                                |
+| ----------------------| -----------------------------------------------------|
+| DATABASE_URL          | sqlite:////atlas-db.sqlite                           |
+| CORS_ORIGIN_WHITELIST | '*'                                                  |
+| DEBUG                 | True                                                 |
+| ALLOWED_HOSTS         | ['*']                                                |
+| SECRET_KEY            | XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX |
+
+Merging a feature branch into develop automatically triggers the build pipeline to run unit tests to verify that the feature doesn't break anything and if that is successful a new staging environment is built and deployed to heroku
+
+Merging into master triggers the build pipeline:
+- run the unit tests 
+- if they pass, tag the release to the next version (maybe)
+- deploy to heroku
