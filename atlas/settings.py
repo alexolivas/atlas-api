@@ -24,33 +24,36 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DEBUG', False))
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
+# A list of strings representing the host/domain names that this Django site can serve:
+# e.g. ['test.com', 'website.com']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # In development Django's runserver automatically takes over static file handling
+    # 'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'storages',
     'rest_framework',
-    'rest_framework_docs',
+    # 'rest_framework_docs',
     'rest_framework.authtoken',
     'corsheaders',
     'tinymce',
-    'authentication',
-    'web',
-    'accounts',
-    'projects',
-    'apps',
+    'atlas.authentication',
+    'atlas.web',
+    'atlas.accounts',
+    'atlas.projects',
+    'atlas.apps',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,7 +136,7 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': '150/day',
     },
-    'PAGE_SIZE': 10
+    # 'PAGE_SIZE': 10
 }
 
 JWT_AUTH = {
@@ -142,7 +145,7 @@ JWT_AUTH = {
 
 STATIC_URL = '/static/'
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
@@ -165,11 +168,11 @@ CORS_ORIGIN_WHITELIST = (
     os.environ.get('CORS_ORIGIN_WHITELIST')
 )
 
-#CORS_ALLOW_HEADERS = (
+# CORS_ALLOW_HEADERS = (
 #    'x-requested-with',
 #    'content-type',
 #    'accept',
 #    'origin',
 #    'authorization',
 #    'x-csrftoken'
-#)
+# )
