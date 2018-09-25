@@ -6,34 +6,80 @@ a RESTful endpoint structure. The API authorization framework is OAuth. The curr
 ## API Documentation
 Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 
+## Table of Contents
+
+- [Getting Started](#getting-started)
+    - [Initial Configuration](#initial-configuration)
+    - [Running Locally](#running-locally)
+    - [Install demo data](#install-demo-data)
+
 # Getting Started
+
 The first step to start working on this project is to clone the repository onto your computer:
 ```bash
 $ git clone https://gitlab.com/alexolivas/atlas
 ```
 
-Next create an environment variables file 
+## Initial Configuration
+
+Navigate to the project inside your working directory (the place you cloned the project)
+```bash
+$ cd <repo-directory>/atlas
+```
+
+Create an environment variables file 
 ```bash
 $ vi .env
 ```
 
-and populate it with the following (generate the SECRET_KEY with a tool like 1password: 50 characters) environment variables. It is important that these variables exist so that the application can run
+Populate it with the following (generate the SECRET_KEY with a tool like 1password: 50 characters) environment variables. It is important that these variables exist so that the application can run
 ```
 SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 DEBUG=True
 DATABASE_URL='postgres://<db-user>@localhost:5432/<db_name>'
-ALLOWED_HOSTS=<your_host_url>
+ALLOWED_HOSTS=[<your_host_url>]
 CORS_ORIGIN_WHITELIST=<your_cors_hosts>
 DATA_REFRESH=<TRUE OR FALSE - Do not use in production>
 ```
 
-## -----------------------------
+TODO: I still need to implement this postgres section!
 
-## Add a section for keeping dependencies up to date
-https://wakatime.com/blog/22-keeping-your-pip-requirements-fresh
+Create an environment variables file for the postgres container
+```bash
+$ vi .postgres-env
+```
+
+Populate it with the following data, generate a new 15 character password specific to your environment
+```
+POSTGRES_USER: atlasuser
+POSTGRES_PASSWORD: XXXXXXXXXXXXXXX
+POSTGRES_DB: atlas_db
+```
+
+## Run locally
+
+This project is setup to run inside docker. It consists of two images, the django project and the postgres database. Run the following command to build the project for the first time (or anytime you want to start fresh)
+```bash
+$ docker-compose up --build
+```
+
+## Install demo data
+
+TODO: I need to figure this part out still. Something like installing demo data.
+
+# Helpful Commands
+Run this command to display the project's dependencies as a tree structure (pipdeptree comes pre-configured as a dependency on this project)
+```bash
+$ pipdeptree
+```
+
+Run this command to update any outdated pip dependencies. See this [blog](https://wakatime.com/blog/22-keeping-your-pip-requirements-fresh) for additional information
 ```bash
 $ pur -r requirements.txt
 ```
+
+## ---- DEPRECATED BELOW ----
+
 
 ## Everything below needs to be revised
 The majority of this README file should be deprecated because it hasn't been revisited in a long time. I need to research how to setup and run a django rest project locally with minimal resources e.g. inside a docker container. I'm using the following instructions https://medium.com/backticks-tildes/how-to-dockerize-a-django-application-a42df0cb0a99 to dockerize this app
@@ -94,6 +140,11 @@ ALLOWED_HOSTS=<your_host_url>
 CORS_ORIGIN_WHITELIST=<your_cors_hosts>
 DATA_REFRESH=<TRUE OR FALSE - Do not use in production>
 ```
+
+python manage.py createsuperuser --email admin@test.com
+Default user:
+admin
+admin123
 
 
 # Running Locally
@@ -240,12 +291,6 @@ Additionally if you want to backup your current database's state, run the follow
 ```bash
 cd /atlas/resources/
 python backup_db.py
-```
-
-# Helpful Commands
-Run this command to display the project's dependencies as a tree structure (pipdeptree comes pre-configured as a dependency on this project)
-```bash
-pipdeptree
 ```
 
 # Wercker And Heroku Deployment

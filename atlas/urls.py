@@ -1,6 +1,8 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from rest_framework.documentation import include_docs_urls
+
 from atlas.authentication import auth_urls
 from atlas.projects import urls
 from atlas.web import urls
@@ -17,7 +19,7 @@ urlpatterns = [
     url(r'^auth/', include(auth_urls)),
     url(r'^projects/', include(urls)),
 
-    # url(r'^docs/', include('rest_framework_docs.urls')),
+    url(r'^docs/', include_docs_urls(title='Atlas API')),
     url(r'^admin/', admin.site.urls),
 ]
 
