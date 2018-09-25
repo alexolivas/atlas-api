@@ -5,22 +5,29 @@ a RESTful endpoint structure. The API authorization framework is OAuth. The curr
 
 ## Table of Contents
 - [API Docs](#api-docs)
-- [Getting Started](#getting-started)
-- [Development Environment](#development-environment)
-    - [Install Data](#install-data)
+- [Get Key](#get-key)
 - [Development](#development)
+    - [Getting Started](#getting-started)
+    - [Setup Environment](#setup-environment)
+    - [Install Data](#install-data)
     - [Start Feature](#start-feature)
     - [Publishing Images](#publishing-images)
     - [Running Tests](#runing-tests)
     - [Demo Data](#demo-data)
         - [Examples](#Examples)
+    - [Helpful Commands](#helpful-commands)
 - [Release Process](#release-process)
-- [Helpful Commands](#helpful-commands)
 
 ## API Documentation
 Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 
-## Getting Started
+## Get Key
+Add this section on obtaining a key to use this service with a couple examples.
+
+## Development
+This project uses gitflow and runs inside a docker container.
+
+### Getting Started
 The first step to start working on this project is to clone the repository onto your computer
 ```bash
 $ git clone https://gitlab.com/alexolivas/atlas
@@ -30,7 +37,7 @@ Setup git flow, follow instructions and accept the defaults
 ```bash
 $ git flow init
 ```
-## Development Environment
+### Setup Environment
 This service is run inside a [docker](https://www.docker.com/)docker container to resemble a production environment. To get started, navigate to the repo (the directory where you cloned the project)
 ```bash
 $ cd <repo-directory>/atlas
@@ -76,11 +83,10 @@ $ cd /atlas/resources/
 $ python restore_db.py
 ```
 
-## Development
-This project uses gitflow
-
 ### Start Feature
-test
+```bash
+$ git flow feature start $FEATURE_NAME
+```
 
 ### Publishing Images
 When a new version of the atlas API is ready to be released, run the following command to publish the latest version up to docker hub
@@ -131,12 +137,7 @@ $ python manage.py dumpdata auth.user > users.json
 $ mv web.json atlas/resources/data/users.json
 ```
 
-
-## Release Process
-TODO Add this
-
-
-## Helpful Commands
+### Helpful Commands
 Run this command to display the project's dependencies as a tree structure (pipdeptree comes pre-configured as a dependency on this project)
 ```bash
 $ pipdeptree
@@ -146,3 +147,7 @@ Run this command to update any outdated pip dependencies. See this [blog](https:
 ```bash
 $ pur -r requirements.txt
 ```
+
+
+## Release Process
+TODO Add this
