@@ -1,7 +1,7 @@
 boto3==1.9.9
 botocore==1.12.9
 dj-database-url==0.5.0
-Django==1.11.15
+Django==2.0.3
 django-cors-headers==2.4.0
 django-filter==2.0.0
 django-storages==1.7.1
@@ -9,14 +9,13 @@ django-tinymce==2.7.0
 djangorestframework==3.8.2
 djangorestframework-jwt==1.11.0
 docutils==0.14
-drfdocs==0.0.11
 gunicorn==19.9.0
 httpie==0.9.9
 jmespath==0.9.3
 olefile==0.46
 Pillow==5.2.0
 pipdeptree==0.13.0
-psycopg2==2.7.5
+psycopg2-binary==2.7.5
 Pygments==2.2.0
 pur==5.0.0
 PyJWT==1.6.4

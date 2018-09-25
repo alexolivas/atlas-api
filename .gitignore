@@ -3,4 +3,4 @@
 .idea
 .env
 staticfiles
-atlas_db
+pgdata
