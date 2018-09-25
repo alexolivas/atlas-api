@@ -1,15 +1,11 @@
 version: '3'
 
 services:
-  # Create and .env file for postgres container just like the web service
-  atlas-postgres-db:
-    container_name: atlas-postgres-db
+  atlas-db:
+    container_name: atlas-db
     image: postgres
     restart: always
-    environment:
-      POSTGRES_USER: atlasuser
-      POSTGRES_PASSWORD: BEKegmWu5O8u7e7VZraswa@jP
-      POSTGRES_DB: atlas_db
+    env_file: .postgres-env
     ports:
       - '5432:5432'
     volumes:
@@ -22,6 +18,6 @@ services:
       - .:/atlas
     env_file: .env
     ports:
-      - "8000:8000"
+      - '8000:8000'
     depends_on:
-      - atlas-postgres-db
+      - atlas-db

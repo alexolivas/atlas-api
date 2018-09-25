@@ -29,5 +29,6 @@ coverage.xml
 .DS_Store
 .idea
 .env
+.postgres_env
 staticfiles
 pgdata

@@ -27,14 +27,12 @@ Setup git flow, follow instructions and accept the defaults
 $ git flow init
 ```
 # Development Environment
-This project is run inside a [docker](https://www.docker.com/)docker container. Running the development environment inside a docker container will resemble a production environment.
-
-Navigate to the project inside your working directory (the place you cloned the project)
+This service is run inside a [docker](https://www.docker.com/)docker container to resemble a production environment. To get started, navigate to the repo (the directory where you cloned the project)
 ```bash
 $ cd <repo-directory>/atlas
 ```
 
-Create an environment variables file 
+Create an environment variables file at the root
 ```bash
 $ vi .env
 ```
@@ -78,7 +76,10 @@ This project uses gitflow
 test
 
 ## Publish New Image
-test
+When a new version of the atlas API is ready to be released, run the following command to publish the latest version up to docker hub
+```bash
+$ docker push alexolivas/atlas_api:latest
+```
 
 ## Run Unit Tests
 Add this section
@@ -124,105 +125,7 @@ CREATE USER <db-user> WITH PASSWORD '<password>';
 GRANT ALL PRIVILEGES ON DATABASE <database-name> TO <db-user>;
 ```
 
-To run inside of a Docker container
-```bash
-docker-compose up -d --build --force-recreate
-```
 
-After the container has spinned up, "SSH" into the docker machine
-```bash
-bash -c "clear && docker exec -it atlas_starter_web_1 sh"
-```
-
-Once inside the docker machine, run the initial database migrations (not using a relational database, using SQLite)
-```bash
-python manage.py migrate
-```
-
-Finally, create a superuser, run the following command and follow the step by step instructions
-```bash
-python manage.py createsuperuser
-```
-
-## Virtualenv
-[Virtualenv](https://pypi.python.org/pypi/virtualenv) is a python environment builder and is used together with [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/), which is a set of extensions to the original virtualenv tool.
-Their primary purpose is to create isolated python environments, which is useful when working with multiple python projects that may have different dependencies.
-
-### Pre Requisites
-
-Install virtualenv
-```bash
-pip install virtualenv
-```
-
-Install virtualenvwrapper
-```bash
-pip install virtualenvwrapper
-```
-
-Create a directory to store details of your future virtual environments (this can be whatever location you'd like but remember it for the next step).
-```bash
-cd ~
-mkdir .virtualenvs
-mkdir Development/
-```
-
-Edit the bash profile (create it if it doesn't exist)
-```bash
-vi ~/.bash_profile
-```
-
-Add the following to your bash_profile
-```
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Development
-source /usr/local/bin/virtualenvwrapper.sh
-```
-
-Run the following command, if it installed correctly you will get a help menu
-```bash
-mkvirtualenv
-```
-
-Last step to be able to work with virtualenvwrapper and environment variables.
-```bash
-vi ~/.virtualenvs/postactivate
-```
-
-Add the following code snippet inside postactivate so that the project's environment variables are available on activate
-```
-set -a
-. .env
-set +a
-```
-
-### Create Virtual Environment
-
-Create a virtual environment for this project
-```bash
-mkvirtualenv atlas
-```
-
-After running the command above, your environment is created and you should automatically be inside. You can verify that you are working inside your virtual environment if you bash shell looks like this:
-```bash
-(atlas)computername:current-directory username$
-```
-
-Within your virtual environment, install the project's requirements
-```bash
-pip install -r requirements.txt
-```
-
-Run the initial database migrations
-```bash
-python manage.py migrate
-```
-
-### Create Superuser
-Run the following command and follow the step by step instructions
-```bash
-python manage.py createsuperuser
-```
 
 ## Data
 Once you have your local development environment running you will want to load your database with test data so that you can interact with the system.
