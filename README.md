@@ -9,18 +9,25 @@ Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 ## Table of Contents
 
 - [Getting Started](#getting-started)
-    - [Initial Configuration](#initial-configuration)
-    - [Running Locally](#running-locally)
+- [Development Environment](#development-environment)
     - [Install demo data](#install-demo-data)
+- [Development](#development)
+- [Release Process](#release-process)
+- [Helpful Commands](#helpful-commands)
 
 # Getting Started
 
-The first step to start working on this project is to clone the repository onto your computer:
+The first step to start working on this project is to clone the repository onto your computer
 ```bash
 $ git clone https://gitlab.com/alexolivas/atlas
 ```
 
-## Initial Configuration
+Setup git flow, follow instructions and accept the defaults
+```bash
+$ git flow init
+```
+# Development Environment
+This project is run inside a [docker](https://www.docker.com/)docker container. Running the development environment inside a docker container will resemble a production environment.
 
 Navigate to the project inside your working directory (the place you cloned the project)
 ```bash
@@ -36,10 +43,9 @@ Populate it with the following (generate the SECRET_KEY with a tool like 1passwo
 ```
 SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 DEBUG=True
-DATABASE_URL='postgres://<db-user>@localhost:5432/<db_name>'
+DATABASE_URL='postgres://<db-user>:<db-user-password>@localhost:5432/<db-name>'
 ALLOWED_HOSTS=[<your_host_url>]
 CORS_ORIGIN_WHITELIST=<your_cors_hosts>
-DATA_REFRESH=<TRUE OR FALSE - Do not use in production>
 ```
 
 TODO: I still need to implement this postgres section!
@@ -56,8 +62,6 @@ POSTGRES_PASSWORD: XXXXXXXXXXXXXXX
 POSTGRES_DB: atlas_db
 ```
 
-## Run locally
-
 This project is setup to run inside docker. It consists of two images, the django project and the postgres database. Run the following command to build the project for the first time (or anytime you want to start fresh)
 ```bash
 $ docker-compose up --build
@@ -66,6 +70,25 @@ $ docker-compose up --build
 ## Install demo data
 
 TODO: I need to figure this part out still. Something like installing demo data.
+
+# Development
+This project uses gitflow
+
+## Start Feature
+test
+
+## Publish New Image
+test
+
+## Run Unit Tests
+Add this section
+
+## Update Demo Data
+Test
+
+# Release Process
+TODO Add this
+
 
 # Helpful Commands
 Run this command to display the project's dependencies as a tree structure (pipdeptree comes pre-configured as a dependency on this project)
@@ -84,84 +107,12 @@ $ pur -r requirements.txt
 ## Everything below needs to be revised
 The majority of this README file should be deprecated because it hasn't been revisited in a long time. I need to research how to setup and run a django rest project locally with minimal resources e.g. inside a docker container. I'm using the following instructions https://medium.com/backticks-tildes/how-to-dockerize-a-django-application-a42df0cb0a99 to dockerize this app
 
-docker-compose up
-
-## DEPRECATED
-
-[![build status](https://gitlab.com/alexolivas/atlas/badges/master/build.svg)](https://gitlab.com/alexolivas/atlas/commits/master)
-[![coverage report](https://gitlab.com/alexolivas/atlas/badges/master/coverage.svg)](https://gitlab.com/alexolivas/atlas/commits/master)
-[![Dependency Status](https://gemnasium.com/alexolivas/django-rest-starter.svg)](https://gemnasium.com/alexolivas/django-rest-starter)
-
-
-## Table of Contents
-
-- [Getting Started](#getting-started)
-- [Running Locally](#running-locally)
-    - [Database Setup](#database-setup)
-    - [Docker](#docker)
-    - [Virtualenv](#virtualenv)
-        - [Pre Requisites](#pre-requisites)
-        - [Create Virtual Environment](#create-virtual-environment)
-        - [Create Superuser](#create-superuser)
-    - [Data](#data)
-- [Helpful Commands](#helpful-commands)
-- [Wercker/Heroku Deployment](#wercker-and-heroku-deployment)
-
--------
-# Getting Started
-- The first step to start working on this project is to fork the repository into your personal github account.
-- Next, clone the forked repository into your local environment
-
-```bash
-git clone https://gitlab.com/alexolivas/atlas
+Create superuser
 ```
-
-For updating your fork from the remote (upstream)
-```bash
-git remote add upstream https://gitlab.com/alexolivas/atlas
-```
-
-Make sure upstream is configured as expected, should see origin for fork and upstream to main repo
-```bash
-git remote -v
-```
-
-Create an environment variables file
-```bash
-vi .env
-```
-
-Populate it with the following (generate the SECRET_KEY with a tool like 1password: 50 characters)
-```
-SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-DEBUG=True
-DATABASE_URL='postgres://<db-user>:<db-password>@<host>:5432/<db_name>'
-ALLOWED_HOSTS=<your_host_url>
-CORS_ORIGIN_WHITELIST=<your_cors_hosts>
-DATA_REFRESH=<TRUE OR FALSE - Do not use in production>
-```
-
 python manage.py createsuperuser --email admin@test.com
 Default user:
 admin
 admin123
-
-
-# Running Locally
-You can either run the project inside a [docker](#docker) container or inside a [virtual environment](#virtualenv). If you are actively developing on a local copy of django-rest-starter it is recommended that you use a virtual environment.
-With a virtual environment you have the benefit of making changes without having to redeploy or start up the web server each time. You can do the same with docker but you have to setup port forwarding.
-
-## Database Setup
-During the development phase I typically use a postgres database to simulate production as much as possible. These are the database setup instructions I use for my django and django-rest projects.
-
-Install postgres if it is not already in your system
-```bash
-brew install postgresql
-```
-
-PSQL into postgres
-```bash
-psql postgres
 ```
 
 Create users and database instances
@@ -172,12 +123,6 @@ GRANT ALL PRIVILEGES ON DATABASE <database-name> TO postgres;
 CREATE USER <db-user> WITH PASSWORD '<password>';
 GRANT ALL PRIVILEGES ON DATABASE <database-name> TO <db-user>;
 ```
-
-## Docker
-[Docker](https://www.docker.com/) is an open platform for developers and sysadmins to build, ship, and run distributed applications whether on laptops, data center VMs, or the cloud. 
-Running your local environment inside a docker container will resemble a production environment.
-
-NOTE: Docker usage is still a work in progress, I still need to create the docker files and another docker container for postgres.
 
 To run inside of a Docker container
 ```bash
