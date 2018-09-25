@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  atlas-db:
+    container_name: atlas-db
+    image: postgres
+    restart: always
+    env_file: .postgres-env
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+  web:
+    build: .
+    command: bash -c "sleep 10 && python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    container_name: atlas_service
+    volumes:
+      - .:/atlas
+    env_file: .env
+    ports:
+      - '8000:8000'
+    depends_on:
+      - atlas-db
