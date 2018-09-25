@@ -3,20 +3,24 @@ The Atlas API is an internal project management service for my personal and 8Bit
 are private but it does expose a small public API which is consumed by my portfolio website. It uses HTTP methods and 
 a RESTful endpoint structure. The API authorization framework is OAuth. The current API version is beta.
 
-## API Documentation
-Visit the [api docs](http://django-rest-starter.herokuapp.com/)
-
 ## Table of Contents
-
+- [API Docs](#api-docs)
 - [Getting Started](#getting-started)
 - [Development Environment](#development-environment)
-    - [Demo Data](#demo-data)
+    - [Install Data](#install-data)
 - [Development](#development)
+    - [Start Feature](#start-feature)
+    - [Publishing Images](#publishing-images)
+    - [Running Tests](#runing-tests)
+    - [Demo Data](#demo-data)
+        - [Examples](#Examples)
 - [Release Process](#release-process)
 - [Helpful Commands](#helpful-commands)
 
-# Getting Started
+## API Documentation
+Visit the [api docs](http://django-rest-starter.herokuapp.com/)
 
+## Getting Started
 The first step to start working on this project is to clone the repository onto your computer
 ```bash
 $ git clone https://gitlab.com/alexolivas/atlas
@@ -26,7 +30,7 @@ Setup git flow, follow instructions and accept the defaults
 ```bash
 $ git flow init
 ```
-# Development Environment
+## Development Environment
 This service is run inside a [docker](https://www.docker.com/)docker container to resemble a production environment. To get started, navigate to the repo (the directory where you cloned the project)
 ```bash
 $ cd <repo-directory>/atlas
@@ -63,38 +67,76 @@ This project is setup to run inside docker. It consists of two images, the djang
 $ docker-compose up --build
 ```
 
-## Demo Data
+### Install Data
 
-Once you have your local development environment running you will want to load your database with test data so that you can interact with the system.
+Once you have your local development environment running you will want to load your database with demo data so that you can interact with the system.
 Run the following (from the project's root directory):
 ```bash
-cd /atlas/resources/
-python refresh_db.py
+$ cd /atlas/resources/
+$ python restore_db.py
 ```
 
-# Development
+## Development
 This project uses gitflow
 
-## Start Feature
+### Start Feature
 test
 
-## Publish New Image
+### Publishing Images
 When a new version of the atlas API is ready to be released, run the following command to publish the latest version up to docker hub
 ```bash
 $ docker push alexolivas/atlas_api:latest
 ```
 
-## Run Unit Tests
+### Running Tests
 Add this section
 
-## Update Demo Data
-Test
+### Demo Data
+From time to time its possible that I may want to add data for a particular feature and make it available to the project's demo data. This section provides a step by step guide for how to achieve this.
 
-# Release Process
+To create a backup of the current state of your database (specific to an APP) run the following command
+```bash
+$ python manage.py dumpdata $DJANGO_APP > $BACKUP_FILE.json
+```
+
+Then move the resulting backup to the resources directory
+```bash
+$ mv web.json atlas/resources/data/$BACKUP_FILE.json
+```
+
+#### Examples
+The following are examples of the primary applications whose data will be periodically updated to a state where we would want to create a backup
+
+The web app contains all the information used by the portfolio website
+```bash
+$ python manage.py dumpdata web > web.json
+$ mv web.json atlas/resources/data/web.json
+```
+
+The accounts app contains all the client accounts
+```bash
+$ python manage.py dumpdata accounts > accounts.json
+$ mv web.json atlas/resources/data/accounts.json
+```
+
+The projects app contains all the projects in my portfolio
+```bash
+$ python manage.py dumpdata projects > projects.json
+$ mv web.json atlas/resources/data/projects.json
+```
+
+The auth.user app is the out of the box django app containing users that can login to the admin portal. This should already have 1 admin account but its possible that in the future I may add a feature that could require a different user
+```bash
+$ python manage.py dumpdata auth.user > users.json
+$ mv web.json atlas/resources/data/users.json
+```
+
+
+## Release Process
 TODO Add this
 
 
-# Helpful Commands
+## Helpful Commands
 Run this command to display the project's dependencies as a tree structure (pipdeptree comes pre-configured as a dependency on this project)
 ```bash
 $ pipdeptree
@@ -104,40 +146,3 @@ Run this command to update any outdated pip dependencies. See this [blog](https:
 ```bash
 $ pur -r requirements.txt
 ```
-
-## ---- DEPRECATED BELOW ----
-
-
-## Everything below needs to be revised
-The majority of this README file should be deprecated because it hasn't been revisited in a long time. I need to research how to setup and run a django rest project locally with minimal resources e.g. inside a docker container. I'm using the following instructions https://medium.com/backticks-tildes/how-to-dockerize-a-django-application-a42df0cb0a99 to dockerize this app
-
-Create superuser
-```
-python manage.py createsuperuser --email admin@test.com
-Default user:
-admin
-admin123
-```
-
-Create users and database instances
-```psql
-postgres=# CREATE USER postgres WITH SUPERUSER;
-CREATE DATABASE <database-name>;
-GRANT ALL PRIVILEGES ON DATABASE <database-name> TO postgres;
-CREATE USER <db-user> WITH PASSWORD '<password>';
-GRANT ALL PRIVILEGES ON DATABASE <database-name> TO <db-user>;
-```
-
-
-
-## Data
-
-
-Additionally if you want to backup your current database's state, run the following (from the project's root directory):
-```bash
-cd /atlas/resources/
-python backup_db.py
-```
-
-# Wercker And Heroku Deployment
-This project's demo is continuously built by [wercker](http://wercker.com/) and deployed by the push of a button to [heroku](http://heroku.com). I followed the [wercker deployments steps](http://devcenter.wercker.com/quickstarts/deployment/heroku.html) to get the app deployed.
