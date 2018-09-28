@@ -15,6 +15,7 @@ a RESTful endpoint structure. The API authorization framework is OAuth. The curr
     - [Running Tests](#runing-tests)
     - [Demo Data](#demo-data)
         - [Examples](#Examples)
+    - [Starting a container](#starting-a-container)
     - [Helpful Commands](#helpful-commands)
 - [Release Process](#release-process)
 
@@ -108,6 +109,17 @@ $ python manage.py dumpdata $DJANGO_APP > $BACKUP_FILE.json
 Then move the resulting backup to the resources directory
 ```bash
 $ mv web.json atlas/resources/data/$BACKUP_FILE.json
+```
+
+### Starting a container
+To rebuild the container entirely run the following command
+```bash
+docker-compose up --build
+```
+
+To start a container
+```bash
+docker-compose up
 ```
 
 #### Examples
