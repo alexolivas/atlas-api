@@ -1,4 +1,3 @@
-# from __future__ import unicode_literals
 from django.db import models
 from tinymce.models import HTMLField
 
@@ -22,18 +21,26 @@ class CareerSnapshot(models.Model):
     class Meta:
         db_table = "career_snapshot"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.company
 
 
 class AboutInfo(models.Model):
-    home_page_description = HTMLField()
-    about_page_description = HTMLField()
-    personal_description = HTMLField()
+    HOME = 'home'
+    ABOUT = 'about'
+    LOCATION_CHOICES = (
+        (HOME, 'Home Page'),
+        (ABOUT, 'About Page')
+    )
+    description = HTMLField()
+    location = models.CharField(max_length=6, choices=LOCATION_CHOICES, default=HOME, unique=True)
 
     class Meta:
         verbose_name_plural = "about info"
         db_table = "about_info"
+
+    def __str__(self):
+        return self.location
 
 
 class TechnicalSkill(models.Model):

@@ -11,21 +11,17 @@ from atlas.web.serializers.technology_serializer import TechnicalSkillSerializer
 from atlas.web.serializers.expertise_serializer import ExpertiseSerializer
 
 
-class AboutInfoDetails(APIView):
+class AboutDetails(APIView):
     """
-    This endpoint returns the "about info" to display on the about section of the website
+    This endpoint returns the "about details"
     """
     permission_classes = (AllowAny,)
 
-    @staticmethod
-    def get_about_info():
-        try:
-            return AboutInfo.objects.all()[0]
-        except:
-            return None
-
     def get(self, request, format=None):
-        about_info = AboutInfoSerializer(self.get_about_info())
+        queryset = AboutInfo.objects.all()
+        location = self.request.query_params.get('location', AboutInfo.HOME)
+        queryset = queryset.filter(location=location)[0]
+        about_info = AboutInfoSerializer(queryset)
         return Response(about_info.data, status=status.HTTP_200_OK)
 
 

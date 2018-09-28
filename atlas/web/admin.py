@@ -18,7 +18,7 @@ admin.site.register(CareerSnapshot, CareerSnapshotAdmin)
 
 
 class AboutInfoAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('location',)
 admin.site.register(AboutInfo, AboutInfoAdmin)
 
 
