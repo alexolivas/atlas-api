@@ -49,9 +49,9 @@ pipelines:
             - pip
           script:
             - pip install -r requirements.txt
-            - apt-get update && apt-get install -y postgresql-client
-            - PGPASSWORD=test_user_password psql -h localhost -p 5432 -U test_user atlas_pipeline_db;
-            - python manage.py migrate
+#            - apt-get update && apt-get install -y postgresql-client
+#            - PGPASSWORD=test_user_password psql -h localhost -p 5432 -U test_user atlas_pipeline_db;
+#            - python manage.py migrate
             - python manage.py test
           services:
             - postgres
