@@ -42,6 +42,8 @@ pipelines:
             - python manage.py test
             # TODO: Uncomment this when I am truly ready to deploy to stage
 #            - git push https://heroku:$HEROKU_STAGE_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git HEAD
+          services:
+            - postgres
     feature/*:
       - step:
           deployment: test
@@ -51,3 +53,12 @@ pipelines:
             - pip install -r requirements.txt
             - python manage.py migrate
             - python manage.py test
+
+definitions:
+  services:
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_DB: atlas_pipeline_db
+        POSTGRES_USER: test_user
+        POSTGRES_PASSWORD: test_user_password
