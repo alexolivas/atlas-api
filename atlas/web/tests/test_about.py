@@ -9,18 +9,24 @@ from atlas.web.views.about_views import AboutDetails
 
 
 class AboutInfoViewsTest(TestCase):
+    """ This test suite runs tests against the about details endpoint """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.factory = APIRequestFactory()
+        cls.view = AboutDetails.as_view()
 
     def setUp(self):
-        self.factory = APIRequestFactory()
-        self.view = AboutDetails.as_view()
+        AboutInfo.objects.all().delete()
 
-        # Clear the database
+    @classmethod
+    def tearDownClass(cls):
         AboutInfo.objects.all().delete()
 
     def test_empty_about_info_request(self):
         """ This test verifies that the endpoint return successfully without any about info records """
-        request = self.factory.get('/web/about-info/')
-        response = self.view(request)
+        request = AboutInfoViewsTest.factory.get('/web/about-info/')
+        response = AboutInfoViewsTest.view(request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals({}, response.data)
 
@@ -35,8 +41,8 @@ class AboutInfoViewsTest(TestCase):
 
         # Verify that the home about info object is returned when no GET param is
         # passed in as it is the default
-        request = self.factory.get('/web/about-info/')
-        response = self.view(request)
+        request = AboutInfoViewsTest.factory.get('/web/about-info/')
+        response = AboutInfoViewsTest.view(request)
         expected_response = {
             'location': 'home',
             'description': 'Lorem ipsum description for the home page'
@@ -45,8 +51,8 @@ class AboutInfoViewsTest(TestCase):
         self.assertEquals(expected_response, response.data)
 
         # Now explicitly pass in the GET param and verify the same response is returned
-        request = self.factory.get('/web/about-info/?location=home')
-        response = self.view(request)
+        request = AboutInfoViewsTest.factory.get('/web/about-info/?location=home')
+        response = AboutInfoViewsTest.view(request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals(expected_response, response.data)
 
@@ -61,8 +67,8 @@ class AboutInfoViewsTest(TestCase):
 
         # Verify that the home about info object is returned when no GET param is
         # passed in as it is the default
-        request = self.factory.get('/web/about-info/?location=about')
-        response = self.view(request)
+        request = AboutInfoViewsTest.factory.get('/web/about-info/?location=about')
+        response = AboutInfoViewsTest.view(request)
         expected_response = {
             'location': 'about',
             'description': 'Lorem ipsum description for the about page'
@@ -72,6 +78,7 @@ class AboutInfoViewsTest(TestCase):
 
 
 class AboutInfoModelTest(TestCase):
+    """ This test suite verifies model restrictions """
 
     def setUp(self):
         # Clear the database
