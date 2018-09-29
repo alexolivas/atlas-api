@@ -19,10 +19,12 @@ class AboutDetails(APIView):
 
     def get(self, request, format=None):
         queryset = AboutInfo.objects.all()
-        location = self.request.query_params.get('location', AboutInfo.HOME)
-        queryset = queryset.filter(location=location)[0]
-        about_info = AboutInfoSerializer(queryset)
-        return Response(about_info.data, status=status.HTTP_200_OK)
+        if queryset:
+            location = self.request.query_params.get('location', AboutInfo.HOME)
+            queryset = queryset.filter(location=location)
+            return Response(AboutInfoSerializer(queryset[0]).data)
+        else:
+            return Response({})
 
 
 class ExpertiseDetails(APIView):
