@@ -63,7 +63,7 @@ class TechnicalSkill(models.Model):
     class Meta:
         db_table = "technical_skill"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -86,5 +86,5 @@ class Expertise(models.Model):
         verbose_name_plural = "expertise"
         db_table = "expertise"
 
-    def __unicode__(self):
+    def __str__(self):
         return self.area

@@ -2,12 +2,13 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from atlas.web.models import AboutInfo
 from atlas.web.models import Expertise
 from atlas.web.models import TechnicalSkill
+
 from atlas.web.serializers.about_info_serializer import AboutInfoSerializer
 from atlas.web.serializers.technology_serializer import TechnicalSkillSerializer
-
 from atlas.web.serializers.expertise_serializer import ExpertiseSerializer
 
 
