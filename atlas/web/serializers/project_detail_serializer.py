@@ -4,7 +4,7 @@ from atlas.projects.models import Project
 from atlas.web.serializers.technology_serializer import TechnicalSkillSerializer
 
 
-# TODO: Delete this and only keep PortfolioSerializer
+# TODO: Delete this and only keep ProjectSerializer
 class PortfolioDetailSerializer(serializers.ModelSerializer):
     technology = TechnicalSkillSerializer(read_only=True, many=True)
 

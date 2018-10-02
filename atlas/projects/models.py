@@ -20,7 +20,7 @@ class Project(models.Model):
     active_development = models.BooleanField(default=True)
     project_completed = models.BooleanField(default=False)
     display_on_website = models.BooleanField(default=True)
-    public_access = models.BooleanField(default=False)
+    public_repo = models.BooleanField(default=False)
     featured_project = models.BooleanField(default=False)
     retired = models.BooleanField(default=False)
     tech_stack_display = models.CharField(max_length=75, blank=True, null=True)
@@ -99,7 +99,7 @@ class Project(models.Model):
     # Example: http://tech.marksblogg.com/file-uploads-amazon-s3-django.html
 
 
-class ProjectScreenShot(models.Model):
+class ProjectPhoto(models.Model):
     photo = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
     main_photo = models.BooleanField(default=False, unique=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)

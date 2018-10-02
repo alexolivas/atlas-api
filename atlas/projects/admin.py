@@ -1,9 +1,9 @@
 from django.contrib import admin
-from atlas.projects.models import Project, ProjectScreenShot
+from atlas.projects.models import Project, ProjectPhoto
 
 
-class ProjectScreenShotsInline(admin.TabularInline):
-    model = ProjectScreenShot
+class ProjectPhotosInline(admin.TabularInline):
+    model = ProjectPhoto
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -11,7 +11,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ('active_development', 'project_completed', 'display_on_website',)
     search_fields = ['name', 'account']
     inlines = [
-        ProjectScreenShotsInline,
+        ProjectPhotosInline,
     ]
     # exclude = ('main_photo_thumb',)
 
