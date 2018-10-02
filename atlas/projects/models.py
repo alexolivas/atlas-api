@@ -43,9 +43,9 @@ class Project(models.Model):
 
 
 class ProjectPhoto(models.Model):
-    photo = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
+    url = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
     main_photo = models.BooleanField(default=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.photo.name
+        return self.url.name

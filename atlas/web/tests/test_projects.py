@@ -163,7 +163,6 @@ class ListProjectsViewTest(TestCase):
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals(3, len(response.data))
         for project in response.data:
-            # self.assertTrue(project['id'] in self.expected_featured_projects)
             self.assertIn(project['id'], self.expected_featured_projects)
 
     def test_get_projects_with_limit_param(self):
@@ -200,7 +199,6 @@ class ProjectDetailsViewTest(TestCase):
     """ This test suite runs tests against the project details view """
     @classmethod
     def setUpClass(cls):
-        num = Project.objects.all()
         cls.factory = APIRequestFactory()
         cls.view = ProjectDetails.as_view()
 
@@ -219,10 +217,15 @@ class ProjectDetailsViewTest(TestCase):
             technology_description='lorem ipsum',
             public_repo=True,
             display_on_website=True
-            # photos'
         )
         cls.test_project.technology.set([python_skill])
         cls.test_project.save()
+
+        # # Add a screen shot for this photo
+        # cls.test_project_photo = ProjectPhoto.objects.create(
+        #     url='some/url/',
+        #     project=cls.test_project
+        # )
 
         cls.hidden_project = Project.objects.create(
             name='Test Hidden Project',
@@ -254,6 +257,14 @@ class ProjectDetailsViewTest(TestCase):
         self.assertEquals(self.test_project.name, response.data['name'])
         self.assertEquals(self.test_project.production_url, response.data['production_url'])
         self.assertEquals(self.test_project.description, response.data['description'])
+        # self.assertEquals(1, len(response.data['photos']))
+
+        # Verify the rest of the expected fields are in the response
+        self.assertTrue('repo_url' in response.data)
+        self.assertTrue('tech_stack_display' in response.data)
+        self.assertTrue('technology_description' in response.data)
+        self.assertTrue('public_repo' in response.data)
+        self.assertTrue('technology' in response.data)
 
     def test_get_invalid_project(self):
         """ This test verifies the GET endpoint returns a 404 for a non-existent project """
