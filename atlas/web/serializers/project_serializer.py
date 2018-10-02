@@ -7,7 +7,7 @@ from atlas.web.serializers.technology_serializer import TechnicalSkillSerializer
 class ProjectPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectPhoto
-        fields = ('photo', 'main_photo', 'project',)
+        fields = ('url', 'main_photo', 'project',)
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -30,4 +30,6 @@ class ProjectSerializer(serializers.ModelSerializer):
         )
 
     def get_photos(self, object):
-        return ProjectPhoto.objects.filter(project=object.id)
+        project_photos = ProjectPhoto.objects.filter(project=object.id)
+        serializer = ProjectPhotoSerializer(project_photos, many=True)
+        return serializer.data
