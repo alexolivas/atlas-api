@@ -45,6 +45,7 @@ class AboutInfoViewsTest(TestCase):
         response = AboutInfoViewsTest.view(request)
         expected_response = {
             'location': 'home',
+            'profile_photo': None,
             'description': 'Lorem ipsum description for the home page'
         }
         self.assertEquals(status.HTTP_200_OK, response.status_code)
@@ -71,6 +72,7 @@ class AboutInfoViewsTest(TestCase):
         response = AboutInfoViewsTest.view(request)
         expected_response = {
             'location': 'about',
+            'profile_photo': None,
             'description': 'Lorem ipsum description for the about page'
         }
         self.assertEquals(status.HTTP_200_OK, response.status_code)

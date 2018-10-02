@@ -2,6 +2,14 @@ from django.db import models
 from tinymce.models import HTMLField
 
 
+def s3_bucket_photo_upload(instance, filename):
+    """
+    This method is responsible for creating the directory where the project photo will be uploaded to
+    on the S3 bucket configured by BOTO3
+    """
+    return 'about/{0}-photo'.format(instance.location, filename)
+
+
 class CareerSnapshot(models.Model):
     company = models.CharField(max_length=150)
     position = models.CharField(max_length=150)
@@ -34,6 +42,7 @@ class AboutInfo(models.Model):
     )
     description = HTMLField()
     location = models.CharField(max_length=6, choices=LOCATION_CHOICES, default=HOME, unique=True)
+    profile_photo = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = "about info"

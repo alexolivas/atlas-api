@@ -9,5 +9,6 @@ class AboutInfoSerializer(serializers.ModelSerializer):
         model = AboutInfo
         fields = (
             'location',
+            'profile_photo',
             'description'
         )
