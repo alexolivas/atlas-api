@@ -1,5 +1,3 @@
-# from __future__ import unicode_literals
-
 # import StringIO
 import os
 
@@ -22,34 +20,14 @@ class Project(models.Model):
     active_development = models.BooleanField(default=True)
     project_completed = models.BooleanField(default=False)
     display_on_website = models.BooleanField(default=True)
-    public_access = models.BooleanField(default=False)
+    public_repo = models.BooleanField(default=False)
     featured_project = models.BooleanField(default=False)
     retired = models.BooleanField(default=False)
     tech_stack_display = models.CharField(max_length=75, blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)
-    main_photo = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    main_photo_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_1 = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_1_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_2 = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_2_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_3 = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_3_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_4 = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_4_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_5 = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_5_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_6 = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_6_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_7 = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_7_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_8 = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_8_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_9 = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
-    photo_9_thumb = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
     description = HTMLField(blank=True, null=True)
     technology_description = HTMLField(blank=True, null=True)
-    release_instructions = HTMLField(blank=True, null=True)
+    deploy_description = HTMLField(blank=True, null=True)
     repo_url = models.URLField(blank=True, null=True)
     stage_url = models.URLField(blank=True, null=True)
     production_url = models.URLField(blank=True, null=True)
@@ -61,7 +39,7 @@ class Project(models.Model):
     domain_provider_account = models.CharField(max_length=50, blank=True, null=True)
     domain_provider_console = models.URLField(blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
@@ -121,5 +99,10 @@ class Project(models.Model):
     # Example: http://tech.marksblogg.com/file-uploads-amazon-s3-django.html
 
 
-# class ProjectBilling(models.Model):
-#     pass
+class ProjectPhoto(models.Model):
+    photo = models.ImageField(upload_to=s3_bucket_photo_upload, blank=True, null=True)
+    main_photo = models.BooleanField(default=False, unique=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.photo

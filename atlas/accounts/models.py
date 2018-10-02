@@ -1,4 +1,3 @@
-# from __future__ import unicode_literals
 from django.db import models
 
 
@@ -16,7 +15,7 @@ class Account(models.Model):
     billing_state = models.CharField(max_length=2, blank=True, null=True)
     billing_zip = models.CharField(max_length=10, blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -27,5 +26,5 @@ class AccountOwner(models.Model):
     phone = models.CharField(max_length=25)
     email = models.EmailField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.first_name + ' ' + self.last_name

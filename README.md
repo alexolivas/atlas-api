@@ -127,20 +127,17 @@ The following are examples of the primary applications whose data will be period
 
 The web app contains all the information used by the portfolio website
 ```bash
-$ python manage.py dumpdata web > web.json
-$ mv web.json atlas/resources/data/web.json
+$ python manage.py dumpdata web > atlas/resources/data/web.json
 ```
 
 The accounts app contains all the client accounts
 ```bash
-$ python manage.py dumpdata accounts > accounts.json
-$ mv web.json atlas/resources/data/accounts.json
+$ python manage.py dumpdata accounts > atlas/resources/data/accounts.json
 ```
 
 The projects app contains all the projects in my portfolio
 ```bash
-$ python manage.py dumpdata projects > projects.json
-$ mv web.json atlas/resources/data/projects.json
+$ python manage.py dumpdata projects > atlas/resources/data/projects.json
 ```
 
 The auth.user app is the out of the box django app containing users that can login to the admin portal. This should already have 1 admin account but its possible that in the future I may add a feature that could require a different user
