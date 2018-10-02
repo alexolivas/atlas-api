@@ -70,6 +70,14 @@ ALLOWED_HOSTS=['*']
 CORS_ORIGIN_WHITELIST='*'
 ```
 
+Optionally, if you want to setup the photo upload feature you will have to setup an [s3 bucket](https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html) 
+and add the following environment variables in your .env file once you've set it up
+```
+AWS_S3_ACCESS_KEY_ID=XXXXX
+AWS_S3_SECRET_ACCESS_KEY=XXXXX
+AWS_STORAGE_BUCKET_NAME=XXXXX
+```
+
 This project is setup to run inside docker. It consists of two images, the django project and the postgres database. Run the following command to build the project for the first time (or anytime you want to start fresh)
 ```bash
 $ docker-compose up --build
