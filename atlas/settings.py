@@ -26,7 +26,16 @@ DEBUG = bool(os.environ.get('DEBUG', False))
 
 # A list of strings representing the host/domain names that this Django site can serve:
 # e.g. ['test.com', 'website.com']
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
+env_value = os.environ.get('ALLOWED_HOSTS')
+hosts_array = []
+if isinstance(env_value, tuple):
+    # The environment variable is a comma separated list of hosts
+    for host in env_value:
+        hosts_array.append(host)
+else:
+    # The environment variable is just a single value
+    hosts_array.append(env_value)
+ALLOWED_HOSTS = hosts_array
 
 # Application definition
 INSTALLED_APPS = [
@@ -53,7 +62,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -149,7 +158,7 @@ JWT_AUTH = {
 
 STATIC_URL = '/static/'
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')

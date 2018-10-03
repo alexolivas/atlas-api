@@ -62,12 +62,13 @@ Create a second environment variables file at the root for the django applicatio
 $ vi .env
 ```
 
-Populate it with the following environment variables, generate the SECRET_KEY with a tool like 1password: 50 characters. It is important that these variables exist so that the application can run. 
+Populate it with the following environment variables, generate the SECRET_KEY with a tool like 1password: 50 characters. It is important that these variables exist so that the application can run.
+NOTE: The ALLOWED_HOSTS variable must be a comma separated lists if there are multiple hosts e.g. 'localhost', '127.0.0.1' 
 ```
 SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 DEBUG=True
 DATABASE_URL='postgres://<POSTGRES_USER>:<POSTGRES_PASSWORD>@localhost:5432/<POSTGRES_DB>'
-ALLOWED_HOSTS=['*']
+ALLOWED_HOSTS='*'
 CORS_ORIGIN_WHITELIST='*'
 ```
 
