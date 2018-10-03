@@ -1,19 +1,18 @@
+from django.conf import settings
 from django.core.mail import send_mail
 
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle
 from rest_framework.views import APIView
-
-# from validate_email import validate_email
 
 
 class ContactMe(APIView):
     permission_classes = (AllowAny,)
+    throttle_classes = (AnonRateThrottle,)
 
     def post(self, request):
-        # https://docs.djangoproject.com/en/2.0/topics/email/
-        # Throttle this endpoint to only accept 25 emails a day
         name = request.POST.get('name', '')
         subject = request.POST.get('subject', '')
         from_email = request.POST.get('from', '')
@@ -31,13 +30,21 @@ class ContactMe(APIView):
 
         if not errors:
             try:
-                send_mail(
-                    subject=subject,
-                    message=message,
-                    from_email=from_email,
-                    recipient_list=['to@example.com'],
-                    fail_silently=False,
-                )
+                email_to = settings.DEFAULT_CONTACT_EMAIL_ADDRESS
+                if email_to is not None:
+                    send_mail(
+                        subject=subject,
+                        message=message,
+                        from_email=from_email,
+                        recipient_list=['to@example.com'],
+                        fail_silently=False,
+                    )
+                else:
+                    return Response({
+                        'details': 'Encountered a problem sending this message. This is temporary and will '
+                                   'be resolved shortly. Please try again later or send me a message via LinkedIn',
+                        'success': False
+                    }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             except Exception as e:
                 # Something went wrong sending this message
                 return Response({

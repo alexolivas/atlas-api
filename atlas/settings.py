@@ -133,6 +133,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        # 'rest_framework.throttling.UserRateThrottle'
+    ),
     'DEFAULT_THROTTLE_RATES': {
         'anon': '150/day',
     },
@@ -162,6 +166,7 @@ AWS_S3_ACCESS_KEY_ID = os.environ.get('AWS_S3_ACCESS_KEY_ID')
 AWS_S3_SECRET_ACCESS_KEY = os.environ.get('AWS_S3_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
+DEFAULT_CONTACT_EMAIL_ADDRESS = os.environ.get('DEFAULT_CONTACT_EMAIL_ADDRESS')
 
 # CORS Settings (copy these settings over to django-rest project)
 CORS_ORIGIN_WHITELIST = (
