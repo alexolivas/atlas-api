@@ -4,7 +4,9 @@ print('[Running Data Refresh]')
 
 print('Flushing out the existing database..')
 os.system('python manage.py flush --noinput')
-os.system('python manage.py migrate --fake')
+
+print('Running database migrations..')
+os.system('python manage.py migrate')
 
 print('Creating demo web data..')
 os.system('python manage.py loaddata resources/demo-data/web.json')
