@@ -98,6 +98,8 @@ Run the following (from the project's root directory):
 $ python restore_db.py
 ```
 
+Once the demo data is installed on your system you can login to the admin portal at localhost:8000/admin with the credentials admin/admin123
+
 ### Start Feature
 ```bash
 $ git flow feature start $FEATURE_NAME

@@ -242,7 +242,6 @@ class ProjectDetailsViewTest(TestCase):
     def tearDownClass(cls):
         Project.objects.all().delete()
         TechnicalSkill.objects.all().delete()
-        num = Project.objects.all()
 
     def test_get_project(self):
         """ This test verifies the GET endpoint returns a project's details  """
@@ -252,7 +251,7 @@ class ProjectDetailsViewTest(TestCase):
         # Verify all 10 expected fields are returned in the response, spot check some of them
         # to verify this is the project we are expecting
         self.assertEquals(status.HTTP_200_OK, response.status_code)
-        self.assertEquals(10, len(response.data))
+        self.assertEquals(11, len(response.data))
         self.assertEquals(self.test_project.id, response.data['id'])
         self.assertEquals(self.test_project.name, response.data['name'])
         self.assertEquals(self.test_project.production_url, response.data['production_url'])
@@ -265,6 +264,8 @@ class ProjectDetailsViewTest(TestCase):
         self.assertTrue('technology_description' in response.data)
         self.assertTrue('public_repo' in response.data)
         self.assertTrue('technology' in response.data)
+        self.assertTrue('photos' in response.data)
+        self.assertTrue('main_photo' in response.data)
 
     def test_get_invalid_project(self):
         """ This test verifies the GET endpoint returns a 404 for a non-existent project """

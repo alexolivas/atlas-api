@@ -13,6 +13,7 @@ class ProjectPhotoSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     technology = TechnicalSkillSerializer(read_only=True, many=True)
     photos = serializers.SerializerMethodField()
+    main_photo = serializers.SerializerMethodField()
 
     class Meta:
         model = Project
@@ -26,10 +27,18 @@ class ProjectSerializer(serializers.ModelSerializer):
             'description',
             'technology_description',
             'public_repo',
+            'main_photo',
             'photos',
         )
 
-    def get_photos(self, object):
-        project_photos = ProjectPhoto.objects.filter(project=object.id)
+    def get_photos(self, instance):
+        project_photos = ProjectPhoto.objects.filter(project=instance.id)
         serializer = ProjectPhotoSerializer(project_photos, many=True)
         return serializer.data
+
+    def get_main_photo(self, instance):
+        main_photos = ProjectPhoto.objects.filter(project=instance.id, main_photo=True)
+        if main_photos:
+            serializer = ProjectPhotoSerializer(main_photos[0])
+            return serializer.data
+        return ''
