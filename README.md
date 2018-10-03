@@ -18,6 +18,7 @@ a RESTful endpoint structure. The API authorization framework is OAuth. The curr
     - [Starting a container](#starting-a-container)
     - [Helpful Commands](#helpful-commands)
 - [Release Process](#release-process)
+    - [Heroku Setup](#heroku-setup)
 
 ## API Documentation
 Visit the [api docs](http://django-rest-starter.herokuapp.com/)
@@ -76,6 +77,11 @@ and add the following environment variables in your .env file once you've set it
 AWS_S3_ACCESS_KEY_ID=XXXXX
 AWS_S3_SECRET_ACCESS_KEY=XXXXX
 AWS_STORAGE_BUCKET_NAME=XXXXX
+```
+
+Again, optionally, if you want to setup the contact me feature you must add the following environment variable with the email address you want to receive your emails
+```
+DEFAULT_CONTACT_EMAIL_ADDRESS=<email-address>
 ```
 
 This project is setup to run inside docker. It consists of two images, the django project and the postgres database. Run the following command to build the project for the first time (or anytime you want to start fresh)
@@ -182,3 +188,6 @@ Merging into master triggers the build pipeline:
 - run the unit tests 
 - if they pass, tag the release to the next version (maybe)
 - deploy to heroku
+
+### Heroku Setup
+Production and staging environments are hosted on Heroku. In order to get this REST API to run correctly we must setup the same environment variables we setup for development. However, with different values for each environment.
