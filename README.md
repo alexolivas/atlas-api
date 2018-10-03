@@ -95,7 +95,6 @@ $ docker-compose up --build
 Once you have your local development environment running you will want to load your database with demo data so that you can interact with the system.
 Run the following (from the project's root directory):
 ```bash
-$ cd /atlas/resources/
 $ python restore_db.py
 ```
 
@@ -111,7 +110,9 @@ $ docker push alexolivas/atlas_api:latest
 ```
 
 ### Running Tests
-Add this section
+```bash
+$ python manage.py test
+```
 
 ### Demo Data
 From time to time its possible that I may want to add data for a particular feature and make it available to the project's demo data. This section provides a step by step guide for how to achieve this.
@@ -123,7 +124,7 @@ $ python manage.py dumpdata $DJANGO_APP > $BACKUP_FILE.json
 
 Then move the resulting backup to the resources directory
 ```bash
-$ mv web.json atlas/resources/data/$BACKUP_FILE.json
+$ mv web.json resources/demo-data/$BACKUP_FILE.json
 ```
 
 ### Starting a container
@@ -142,23 +143,22 @@ The following are examples of the primary applications whose data will be period
 
 The web app contains all the information used by the portfolio website
 ```bash
-$ python manage.py dumpdata web > atlas/resources/data/web.json
+$ python manage.py dumpdata web > resources/demo-data/web.json
 ```
 
 The accounts app contains all the client accounts
 ```bash
-$ python manage.py dumpdata accounts > atlas/resources/data/accounts.json
+$ python manage.py dumpdata accounts > resources/demo-data/accounts.json
 ```
 
 The projects app contains all the projects in my portfolio
 ```bash
-$ python manage.py dumpdata projects > atlas/resources/data/projects.json
+$ python manage.py dumpdata projects > resources/demo-data/projects.json
 ```
 
 The auth.user app is the out of the box django app containing users that can login to the admin portal. This should already have 1 admin account but its possible that in the future I may add a feature that could require a different user
 ```bash
-$ python manage.py dumpdata auth.user > users.json
-$ mv web.json atlas/resources/data/users.json
+$ python manage.py dumpdata auth.user > resources/demo-data/users.json
 ```
 
 ### Helpful Commands
@@ -180,7 +180,7 @@ To setup bitbucket pipelines you have to add the following pipeline environment 
 | DATABASE_URL          | sqlite:////atlas-db.sqlite                           |
 | CORS_ORIGIN_WHITELIST | '*'                                                  |
 | DEBUG                 | True                                                 |
-| ALLOWED_HOSTS         | ['*']                                                |
+| ALLOWED_HOSTS         | <hostname>                                           |
 | SECRET_KEY            | XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX |
 
 Merging a feature branch into develop automatically triggers the build pipeline to run unit tests to verify that the feature doesn't break anything and if that is successful a new staging environment is built and deployed to heroku
