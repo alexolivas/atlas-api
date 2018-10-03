@@ -39,7 +39,7 @@ pipelines:
           caches:
             - pip
           script:
-            - npm install -g heroku
+            - curl https://cli-assets.heroku.com/install.sh | sh
             - pip install -r requirements.txt
             - python manage.py test -v 2
             - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git HEAD:master
