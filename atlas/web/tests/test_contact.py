@@ -21,6 +21,7 @@ class ContactMeTest(SimpleTestCase):
 
     def test_successful_email_request(self):
         """ This test verifies the behavior of a successful email request """
+
         with self.settings(DEFAULT_CONTACT_EMAIL_ADDRESS='test.email@domain.com'):
             data = {
                 'name': 'Django User',
@@ -63,6 +64,7 @@ class ContactMeTest(SimpleTestCase):
     def test_form_validation(self):
         """ This test verifies the endpoint fails unless all the expected
         fields are validated """
+
         data = {
         }
         request = ContactMeTest.factory.post('/web/contact/', data)
@@ -98,6 +100,7 @@ class ContactMeTest(SimpleTestCase):
 
     def test_get_request_fails(self):
         """ This test verifies that a 405 is returned if a GET is attempted on this endpoint """
+
         request = ContactMeTest.factory.get('/web/contact/')
         response = ContactMeTest.view(request)
 
