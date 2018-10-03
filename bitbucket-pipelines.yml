@@ -44,7 +44,7 @@ pipelines:
             - python manage.py test -v 2
             - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git HEAD:master
             - heroku authorizations:create
-            - heroku python restore_db.py
+            - heroku run python restore_db.py
           services:
             - postgres
     feature/*:
