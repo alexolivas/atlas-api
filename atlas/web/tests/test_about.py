@@ -35,7 +35,8 @@ class AboutInfoViewsTest(TestCase):
         User.objects.all().delete()
 
     def test_empty_about_info_request(self):
-        """ This test verifies that the endpoint return successfully without any about info records """
+        """ This test verifies that the endpoint returns successfully without any about info records """
+
         request = AboutInfoViewsTest.factory.get('/web/about-info/')
         force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = AboutInfoViewsTest.view(request)
@@ -92,6 +93,21 @@ class AboutInfoViewsTest(TestCase):
         }
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals(expected_response, response.data)
+
+    def test_unauthenticated_about_info_request(self):
+        """ This test verifies that the endpoint fails with unauthenticated requests """
+
+        request = AboutInfoViewsTest.factory.get('/web/about-info/')
+        response = AboutInfoViewsTest.view(request)
+        self.assertEquals(status.HTTP_401_UNAUTHORIZED, response.status_code)
+
+        request = AboutInfoViewsTest.factory.get('/web/about-info/?location=home')
+        response = AboutInfoViewsTest.view(request)
+        self.assertEquals(status.HTTP_401_UNAUTHORIZED, response.status_code)
+
+        request = AboutInfoViewsTest.factory.get('/web/about-info/?location=about')
+        response = AboutInfoViewsTest.view(request)
+        self.assertEquals(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
 
 class AboutInfoModelTest(TestCase):

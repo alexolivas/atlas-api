@@ -33,7 +33,7 @@ class ListProjectsViewEmptyTest(TestCase):
     def tearDownClass(cls):
         User.objects.all().delete()
 
-    def test_get_endpoint(self):
+    def test_get_projects(self):
         """ This test verifies the GET endpoint returns a 200 without any records
         since there aren't any in the database """
         request = ListProjectsViewEmptyTest.factory.get('/web/projects/')
@@ -41,6 +41,12 @@ class ListProjectsViewEmptyTest(TestCase):
         response = ListProjectsViewEmptyTest.view(request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals([], response.data)
+
+    def test_get_projects_unauthenticated_request(self):
+        """ This test verifies that the endpoint fails with unauthenticated requests """
+        request = ListProjectsViewEmptyTest.factory.get('/web/projects/')
+        response = ListProjectsViewEmptyTest.view(request)
+        self.assertEquals(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
 
 class ListProjectsViewTest(TestCase):
@@ -168,13 +174,19 @@ class ListProjectsViewTest(TestCase):
         Project.objects.all().delete()
         User.objects.all().delete()
 
-    def test_get_endpoint(self):
+    def test_get_projects(self):
         """ This test verifies the GET endpoint returns the complete list of active projects """
         request = ListProjectsViewTest.factory.get('/web/projects/')
         force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ListProjectsViewTest.view(request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals(len(self.expected_projects), len(response.data))
+
+    def test_get_projects_unauthenticated_request(self):
+        """ This test verifies that the endpoint fails with unauthenticated requests """
+        request = ListProjectsViewTest.factory.get('/web/projects/')
+        response = ListProjectsViewEmptyTest.view(request)
+        self.assertEquals(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
     def test_get_featured_projects(self):
         """ This test verifies the GET endpoint only returns 3 featured projects """
@@ -223,6 +235,7 @@ class ListProjectsViewTest(TestCase):
 
 class ProjectDetailsViewTest(TestCase):
     """ This test suite runs tests against the project details view """
+
     @classmethod
     def setUpClass(cls):
         cls.factory = APIRequestFactory()
@@ -300,6 +313,12 @@ class ProjectDetailsViewTest(TestCase):
         self.assertTrue('technology' in response.data)
         self.assertTrue('photos' in response.data)
         self.assertTrue('main_photo' in response.data)
+
+    def test_get_project_unauthenticated_request(self):
+        """ This test verifies that the endpoint fails with unauthenticated requests """
+        request = ProjectDetailsViewTest.factory.get('/web/projects/{0}'.format(self.test_project.id))
+        response = ListProjectsViewEmptyTest.view(request)
+        self.assertEquals(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
     def test_get_invalid_project(self):
         """ This test verifies the GET endpoint returns a 404 for a non-existent project """
