@@ -3,28 +3,20 @@ from django.core.mail import send_mail
 
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-# from rest_framework.exceptions import Throttled
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-# from rest_framework.throttling import BaseThrottle
 from rest_framework.views import APIView
 
 
-# class InspectionThrottle(BaseThrottle):
-#     def allow_request(self, request, view):
-#         inspections  = Inspection.object.filter(client=view.client)
-#         if inspections < 15:
-#             return True
-#
-#         raise Throttled(detail=(
-#             "You have reached the limit of 15 open requests. "
-#             "Please wait until your existing requests have been "
-#             "evaluated before submitting additional disputes. "))
-
 class ContactMe(APIView):
+    """ This view is responsible for sending messages to my default email address, because of
+    the throttle_scope property assigned to this view, only 50 requests a day to this endpoint
+    are permitted. The purpose is to avoid getting my inbox flooded with emails in the event of
+    spamming or other form of attack. """
+
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    # throttle_classes = (AnonRateThrottle,)
+    throttle_scope = 'contacts'
 
     def post(self, request):
         name = request.POST.get('name', '')
