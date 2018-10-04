@@ -2,15 +2,29 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.authentication import TokenAuthentication
+# from rest_framework.exceptions import Throttled
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.throttling import AnonRateThrottle
+# from rest_framework.throttling import BaseThrottle
 from rest_framework.views import APIView
 
 
+# class InspectionThrottle(BaseThrottle):
+#     def allow_request(self, request, view):
+#         inspections  = Inspection.object.filter(client=view.client)
+#         if inspections < 15:
+#             return True
+#
+#         raise Throttled(detail=(
+#             "You have reached the limit of 15 open requests. "
+#             "Please wait until your existing requests have been "
+#             "evaluated before submitting additional disputes. "))
+
 class ContactMe(APIView):
-    permission_classes = (AllowAny,)
-    throttle_classes = (AnonRateThrottle,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    # throttle_classes = (AnonRateThrottle,)
 
     def post(self, request):
         name = request.POST.get('name', '')
@@ -36,7 +50,7 @@ class ContactMe(APIView):
                         subject=subject,
                         message=message,
                         from_email=from_email,
-                        recipient_list=['to@example.com'],
+                        recipient_list=[email_to],
                         fail_silently=False,
                     )
                 else:

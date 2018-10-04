@@ -1,23 +1,38 @@
 from unittest import mock
 
+from django.contrib.auth.models import User
 from django.core import mail
-from django.test import SimpleTestCase
+from django.test import TestCase
 
 from rest_framework import status
-from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIRequestFactory, force_authenticate
+
+from rest_framework.authtoken.models import Token
 
 from atlas.web.views.contact_views import ContactMe
 
 
-class ContactMeTest(SimpleTestCase):
+class ContactMeTest(TestCase):
     """ This test suite verifies the contact me endpoint """
 
-    factory = APIRequestFactory()
-    view = ContactMe.as_view()
+    @classmethod
+    def setUpClass(cls):
+        cls.factory = APIRequestFactory()
+        cls.view = ContactMe.as_view()
+        cls.user = User.objects.create_user(
+            'test',
+            'test@test.com',
+            'test',
+        )
+        Token.objects.get_or_create(user=cls.user)
 
     def setUp(self):
-        # Reset the outbox after every test
+        # Reset the outbox before every test
         mail.outbox = []
+
+    @classmethod
+    def tearDownClass(cls):
+        User.objects.all().delete()
 
     def test_successful_email_request(self):
         """ This test verifies the behavior of a successful email request """
@@ -30,11 +45,13 @@ class ContactMeTest(SimpleTestCase):
                 'message': 'Hello, this is an email'
             }
             request = ContactMeTest.factory.post('/web/contact/', data)
+            force_authenticate(request, user=self.user, token=self.user.auth_token)
             response = ContactMeTest.view(request)
 
             self.assertEqual(len(mail.outbox), 1)
             self.assertEqual(mail.outbox[0].subject, 'I am sending an email')
             self.assertEqual(mail.outbox[0].from_email, 'django.user@testing.com')
+            self.assertListEqual(mail.outbox[0].recipients(), ['test.email@domain.com'])
 
             self.assertEquals(status.HTTP_200_OK, response.status_code)
             self.assertEquals('Message sent!', response.data['details'])
@@ -54,6 +71,7 @@ class ContactMeTest(SimpleTestCase):
                 'message': 'Hello, this is an email'
             }
             request = ContactMeTest.factory.post('/web/contact/', data)
+            force_authenticate(request, user=self.user, token=self.user.auth_token)
             response = ContactMeTest.view(request)
 
             self.assertTrue(mocked_send_mail.called)
@@ -68,6 +86,7 @@ class ContactMeTest(SimpleTestCase):
         data = {
         }
         request = ContactMeTest.factory.post('/web/contact/', data)
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ContactMeTest.view(request)
 
         self.assertEquals(status.HTTP_400_BAD_REQUEST, response.status_code)
@@ -87,6 +106,7 @@ class ContactMeTest(SimpleTestCase):
             'subject': 'I am sending you an email'
         }
         request = ContactMeTest.factory.post('/web/contact/', data)
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ContactMeTest.view(request)
 
         self.assertEquals(status.HTTP_400_BAD_REQUEST, response.status_code)
@@ -102,6 +122,7 @@ class ContactMeTest(SimpleTestCase):
         """ This test verifies that a 405 is returned if a GET is attempted on this endpoint """
 
         request = ContactMeTest.factory.get('/web/contact/')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ContactMeTest.view(request)
 
         self.assertEqual(len(mail.outbox), 0)
@@ -119,6 +140,7 @@ class ContactMeTest(SimpleTestCase):
                 'message': 'Hello, this is an email'
             }
             request = ContactMeTest.factory.post('/web/contact/', data)
+            force_authenticate(request, user=self.user, token=self.user.auth_token)
             response = ContactMeTest.view(request)
 
             self.assertEqual(len(mail.outbox), 0)

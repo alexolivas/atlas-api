@@ -1,7 +1,8 @@
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,7 +14,8 @@ class ListFeaturedProjects(ListAPIView):
     """
     This endpoint returns a list of 3 featured projects in random order
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
@@ -26,7 +28,8 @@ class ListProjects(ListAPIView):
     """
     This endpoint returns a list of projects selected to be viewed on my portfolio website
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = ProjectSerializer
 
     def list(self, request):
@@ -57,7 +60,8 @@ class ProjectDetails(APIView):
     """
     This endpoint returns a project's details
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, project_id, format=None):
         try:

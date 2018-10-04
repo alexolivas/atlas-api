@@ -1,7 +1,10 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 
 from rest_framework import status
-from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIRequestFactory, force_authenticate
+
+from rest_framework.authtoken.models import Token
 
 from atlas.projects.models import Project
 from atlas.web.models import TechnicalSkill
@@ -16,14 +19,25 @@ class ListProjectsViewEmptyTest(TestCase):
     def setUpTestData(cls):
         cls.factory = APIRequestFactory()
         cls.view = ListProjects.as_view()
+        cls.user = User.objects.create_user(
+            'test',
+            'test@test.com',
+            'test',
+        )
+        Token.objects.get_or_create(user=cls.user)
 
     def setUp(self):
         Project.objects.all().delete()
+
+    @classmethod
+    def tearDownClass(cls):
+        User.objects.all().delete()
 
     def test_get_endpoint(self):
         """ This test verifies the GET endpoint returns a 200 without any records
         since there aren't any in the database """
         request = ListProjectsViewEmptyTest.factory.get('/web/projects/')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ListProjectsViewEmptyTest.view(request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals([], response.data)
@@ -35,10 +49,15 @@ class ListProjectsViewTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        num = Project.objects.all()
         cls.factory = APIRequestFactory()
         cls.view = ListProjects.as_view()
         cls.featured_view = ListFeaturedProjects.as_view()
+        cls.user = User.objects.create_user(
+            'test',
+            'test@test.com',
+            'test',
+        )
+        Token.objects.get_or_create(user=cls.user)
 
         cls.project_1 = Project.objects.create(
             name='Test Project 1',
@@ -147,11 +166,12 @@ class ListProjectsViewTest(TestCase):
     @classmethod
     def tearDownClass(cls):
         Project.objects.all().delete()
-        num = Project.objects.all()
+        User.objects.all().delete()
 
     def test_get_endpoint(self):
         """ This test verifies the GET endpoint returns the complete list of active projects """
         request = ListProjectsViewTest.factory.get('/web/projects/')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ListProjectsViewTest.view(request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals(len(self.expected_projects), len(response.data))
@@ -159,6 +179,7 @@ class ListProjectsViewTest(TestCase):
     def test_get_featured_projects(self):
         """ This test verifies the GET endpoint only returns 3 featured projects """
         request = ListProjectsViewTest.factory.get('/web/projects/featured/')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ListProjectsViewTest.featured_view(request=request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals(3, len(response.data))
@@ -168,6 +189,7 @@ class ListProjectsViewTest(TestCase):
     def test_get_projects_with_limit_param(self):
         """ This test verifies the GET endpoint only return the number of projects set by the limit param """
         request = ListProjectsViewTest.factory.get('/web/projects/?limit=2')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ListProjectsViewTest.view(request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals(2, len(response.data))
@@ -175,21 +197,25 @@ class ListProjectsViewTest(TestCase):
     def test_get_projects_invalid_limit_param(self):
         """ This test verifies the GET endpoint returns an error message when a GET param is invalid """
         request = ListProjectsViewTest.factory.get('/web/projects/?limit=d')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ListProjectsViewTest.view(request)
         self.assertEquals(status.HTTP_400_BAD_REQUEST, response.status_code)
         self.assertEquals('Limit must be a number', response.data['detail'])
 
         request = ListProjectsViewTest.factory.get('/web/projects/?limit=101')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ListProjectsViewTest.view(request)
         self.assertEquals(status.HTTP_400_BAD_REQUEST, response.status_code)
         self.assertEquals('Limit must be a number between 1 and 100', response.data['detail'])
 
         request = ListProjectsViewTest.factory.get('/web/projects/?limit=0')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ListProjectsViewTest.view(request)
         self.assertEquals(status.HTTP_400_BAD_REQUEST, response.status_code)
         self.assertEquals('Limit must be a number between 1 and 100', response.data['detail'])
 
         request = ListProjectsViewTest.factory.get('/web/projects/?limit=-1')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ListProjectsViewTest.view(request)
         self.assertEquals(status.HTTP_400_BAD_REQUEST, response.status_code)
         self.assertEquals('Limit must be a number', response.data['detail'])
@@ -201,6 +227,12 @@ class ProjectDetailsViewTest(TestCase):
     def setUpClass(cls):
         cls.factory = APIRequestFactory()
         cls.view = ProjectDetails.as_view()
+        cls.user = User.objects.create_user(
+            'test',
+            'test@test.com',
+            'test',
+        )
+        Token.objects.get_or_create(user=cls.user)
 
         python_skill = TechnicalSkill.objects.create(
             name='Python',
@@ -242,10 +274,12 @@ class ProjectDetailsViewTest(TestCase):
     def tearDownClass(cls):
         Project.objects.all().delete()
         TechnicalSkill.objects.all().delete()
+        User.objects.all().delete()
 
     def test_get_project(self):
         """ This test verifies the GET endpoint returns a project's details  """
         request = ProjectDetailsViewTest.factory.get('/web/projects/{0}'.format(self.test_project.id))
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ProjectDetailsViewTest.view(request, project_id=self.test_project.id)
 
         # Verify all 10 expected fields are returned in the response, spot check some of them
@@ -270,6 +304,7 @@ class ProjectDetailsViewTest(TestCase):
     def test_get_invalid_project(self):
         """ This test verifies the GET endpoint returns a 404 for a non-existent project """
         request = ProjectDetailsViewTest.factory.get('/web/projects/200')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ProjectDetailsViewTest.view(request, project_id=200)
         self.assertEquals(status.HTTP_404_NOT_FOUND, response.status_code)
         self.assertEquals('Project not found', response.data['detail'])
@@ -277,6 +312,7 @@ class ProjectDetailsViewTest(TestCase):
     def test_get_invalid_request(self):
         """ This test verifies the GET endpoint returns a 404 for an invalid request """
         request = ProjectDetailsViewTest.factory.get('/web/projects/a')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ProjectDetailsViewTest.view(request, project_id='a')
         self.assertEquals(status.HTTP_400_BAD_REQUEST, response.status_code)
         self.assertEquals('Invalid project ID, expecting a number', response.data['detail'])
@@ -285,6 +321,7 @@ class ProjectDetailsViewTest(TestCase):
         """ This test verifies the GET endpoint returns a 404 for a project that exists but is
         not marked for public access e.g. not viewable on the website """
         request = ProjectDetailsViewTest.factory.get('/web/projects/{0}'.format(self.hidden_project.id))
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = ProjectDetailsViewTest.view(request, project_id=self.hidden_project.id)
         self.assertEquals(status.HTTP_404_NOT_FOUND, response.status_code)
         self.assertEquals('Project not found', response.data['detail'])

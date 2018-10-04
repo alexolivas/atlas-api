@@ -1,5 +1,6 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -11,14 +12,8 @@ class ResumeTimeline(APIView):
     """
     This endpoint returns my resume: career highlights such as jobs or promotions
     """
-    permission_classes = (AllowAny,)
-
-    # @staticmethod
-    # def get_resume():
-    #     try:
-    #         return Project.objects.get(pk=pk, display_on_website=True)
-    #     except Project.DoesNotExist:
-    #         raise Http404
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         """

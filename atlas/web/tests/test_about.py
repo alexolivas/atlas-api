@@ -1,8 +1,11 @@
+from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.test import TestCase
 
 from rest_framework import status
-from rest_framework.test import APIRequestFactory
+from rest_framework.test import APIRequestFactory, force_authenticate
+
+from rest_framework.authtoken.models import Token
 
 from atlas.web.models import AboutInfo
 from atlas.web.views.about_views import AboutDetails
@@ -15,17 +18,26 @@ class AboutInfoViewsTest(TestCase):
     def setUpClass(cls):
         cls.factory = APIRequestFactory()
         cls.view = AboutDetails.as_view()
+        cls.user = User.objects.create_user(
+            'test',
+            'test@test.com',
+            'test',
+        )
+        Token.objects.get_or_create(user=cls.user)
 
     def setUp(self):
+        # Delete all about info objects before every test
         AboutInfo.objects.all().delete()
 
     @classmethod
     def tearDownClass(cls):
         AboutInfo.objects.all().delete()
+        User.objects.all().delete()
 
     def test_empty_about_info_request(self):
         """ This test verifies that the endpoint return successfully without any about info records """
         request = AboutInfoViewsTest.factory.get('/web/about-info/')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = AboutInfoViewsTest.view(request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals({}, response.data)
@@ -42,6 +54,7 @@ class AboutInfoViewsTest(TestCase):
         # Verify that the home about info object is returned when no GET param is
         # passed in as it is the default
         request = AboutInfoViewsTest.factory.get('/web/about-info/')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = AboutInfoViewsTest.view(request)
         expected_response = {
             'location': 'home',
@@ -53,6 +66,7 @@ class AboutInfoViewsTest(TestCase):
 
         # Now explicitly pass in the GET param and verify the same response is returned
         request = AboutInfoViewsTest.factory.get('/web/about-info/?location=home')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = AboutInfoViewsTest.view(request)
         self.assertEquals(status.HTTP_200_OK, response.status_code)
         self.assertEquals(expected_response, response.data)
@@ -69,6 +83,7 @@ class AboutInfoViewsTest(TestCase):
         # Verify that the home about info object is returned when no GET param is
         # passed in as it is the default
         request = AboutInfoViewsTest.factory.get('/web/about-info/?location=about')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
         response = AboutInfoViewsTest.view(request)
         expected_response = {
             'location': 'about',

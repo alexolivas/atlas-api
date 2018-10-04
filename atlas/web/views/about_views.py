@@ -1,5 +1,6 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -16,7 +17,8 @@ class AboutDetails(APIView):
     """
     This endpoint returns the "about details"
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         queryset = AboutInfo.objects.all()
@@ -32,7 +34,8 @@ class ExpertiseDetails(APIView):
     """
     This endpoint returns my technical expertise details
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         """
@@ -50,7 +53,8 @@ class ProgrammingDetails(APIView):
     """
     This endpoint returns the programming languages and frameworks I am familiar with
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         programming_framework_skills = TechnicalSkill.objects.filter(
@@ -64,7 +68,8 @@ class DevelopmentToolDetails(APIView):
     """
     This endpoint returns the development tools I am familiar with
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         development_tool_skills = TechnicalSkill.objects.filter(
@@ -78,7 +83,8 @@ class DataStorageDetails(APIView):
     """
     This endpoint returns the data storage technologies I am familiar with
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         data_skills = TechnicalSkill.objects.filter(
@@ -92,7 +98,8 @@ class DeploymentDetails(APIView):
     """
     This endpoint returns the deployment tools I am familiar with
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, format=None):
         deployment_skills = TechnicalSkill.objects.filter(
