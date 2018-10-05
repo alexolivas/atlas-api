@@ -19,3 +19,4 @@ os.system('python manage.py loaddata resources/demo-data/projects.json')
 
 print('Creating demo users..')
 os.system('python manage.py loaddata resources/demo-data/users.json')
+os.system('python manage.py loaddata resources/demo-data/tokens.json')
