@@ -163,6 +163,11 @@ The auth.user app is the out of the box django app containing users that can log
 $ python manage.py dumpdata auth.user > resources/demo-data/users.json
 ```
 
+The user token are also out of the box
+```bash
+python manage.py dumpdata authtoken > resources/demo-data/tokens.json
+```
+
 ### Helpful Commands
 Run this command to display the project's dependencies as a tree structure (pipdeptree comes pre-configured as a dependency on this project)
 ```bash
