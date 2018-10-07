@@ -69,7 +69,7 @@ SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 DEBUG=True
 DATABASE_URL='postgres://<POSTGRES_USER>:<POSTGRES_PASSWORD>@localhost:5432/<POSTGRES_DB>'
 ALLOWED_HOSTS=localhost, 127.0.0.1
-CORS_ORIGIN_WHITELIST='*'
+CORS_ORIGIN_WHITELIST='localhost:3000', '127.0.0.1:3000'
 ```
 
 Optionally, if you want to setup the photo upload feature you will have to setup an [s3 bucket](https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html) 
@@ -186,10 +186,12 @@ To setup bitbucket pipelines you have to add the following pipeline environment 
 | Environment Variable  | Value                                                |
 | ----------------------| -----------------------------------------------------|
 | DATABASE_URL          | sqlite:////atlas-db.sqlite                           |
-| CORS_ORIGIN_WHITELIST | '*'                                                  |
-| DEBUG                 | True                                                 |
+| CORS_ORIGIN_WHITELIST | '<website-url>'                                      |
+| DEBUG                 | True/False                                           |
 | ALLOWED_HOSTS         | <hostname>                                           |
 | SECRET_KEY            | XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX |
+| DEFAULT_CONTACT_EMAIL_ADDRESS | <email-address>                              |
+| DISABLE_COLLECTSTATIC | 1                                                    |
 
 Merging a feature branch into develop automatically triggers the build pipeline to run unit tests to verify that the feature doesn't break anything and if that is successful a new staging environment is built and deployed to heroku
 
