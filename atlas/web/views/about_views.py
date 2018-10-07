@@ -1,13 +1,13 @@
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from atlas.web.models import AboutInfo
 from atlas.web.models import Expertise
 from atlas.web.models import TechnicalSkill
-
+from atlas.web.permissions import WebsiteAccessPermission
 from atlas.web.serializers.about_info_serializer import AboutInfoSerializer
 from atlas.web.serializers.technology_serializer import TechnicalSkillSerializer
 from atlas.web.serializers.expertise_serializer import ExpertiseSerializer
@@ -18,7 +18,7 @@ class AboutDetails(APIView):
     This endpoint returns the "about details"
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         queryset = AboutInfo.objects.all()
@@ -35,7 +35,7 @@ class ExpertiseDetails(APIView):
     This endpoint returns my technical expertise details
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         """
@@ -54,7 +54,7 @@ class ProgrammingDetails(APIView):
     This endpoint returns the programming languages and frameworks I am familiar with
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         programming_framework_skills = TechnicalSkill.objects.filter(
@@ -69,7 +69,7 @@ class DevelopmentToolDetails(APIView):
     This endpoint returns the development tools I am familiar with
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         development_tool_skills = TechnicalSkill.objects.filter(
@@ -84,7 +84,7 @@ class DataStorageDetails(APIView):
     This endpoint returns the data storage technologies I am familiar with
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         data_skills = TechnicalSkill.objects.filter(
@@ -99,7 +99,7 @@ class DeploymentDetails(APIView):
     This endpoint returns the deployment tools I am familiar with
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         deployment_skills = TechnicalSkill.objects.filter(

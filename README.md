@@ -161,9 +161,10 @@ $ python manage.py dumpdata projects > resources/demo-data/projects.json
 The auth.user app is the out of the box django app containing users that can login to the admin portal. This should already have 1 admin account but its possible that in the future I may add a feature that could require a different user
 ```bash
 $ python manage.py dumpdata auth.user > resources/demo-data/users.json
+$ python manage.py dumpdata auth.group > resources/demo-data/user-groups.json
 ```
 
-The user token are also out of the box
+The user's tokens are also out of the box
 ```bash
 python manage.py dumpdata authtoken > resources/demo-data/tokens.json
 ```

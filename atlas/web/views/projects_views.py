@@ -2,11 +2,12 @@ from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from atlas.projects.models import Project
+from atlas.web.permissions import WebsiteAccessPermission
 from atlas.web.serializers.project_serializer import ProjectSerializer
 
 
@@ -15,7 +16,7 @@ class ListFeaturedProjects(ListAPIView):
     This endpoint returns a list of 3 featured projects in random order
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
@@ -29,7 +30,7 @@ class ListProjects(ListAPIView):
     This endpoint returns a list of projects selected to be viewed on my portfolio website
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
     serializer_class = ProjectSerializer
 
     def list(self, request):
@@ -61,7 +62,7 @@ class ProjectDetails(APIView):
     This endpoint returns a project's details
     """
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, project_id, format=None):
         try:

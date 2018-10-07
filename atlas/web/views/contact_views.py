@@ -3,9 +3,11 @@ from django.core.mail import send_mail
 
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from atlas.web.permissions import WebsiteAccessPermission
 
 
 class ContactMe(APIView):
@@ -15,7 +17,7 @@ class ContactMe(APIView):
     spamming or other form of attack. """
 
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
     throttle_scope = 'contacts'
 
     def post(self, request):
