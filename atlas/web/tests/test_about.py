@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db import IntegrityError
 from django.test import TestCase
 
@@ -24,6 +24,11 @@ class AboutInfoViewsTest(TestCase):
             'test',
         )
         Token.objects.get_or_create(user=cls.user)
+        cls.group = Group(name='Web Clients')
+        cls.group.save()
+
+        cls.user.groups.add(cls.group)
+        cls.user.save()
 
     def setUp(self):
         # Delete all about info objects before every test
@@ -33,6 +38,8 @@ class AboutInfoViewsTest(TestCase):
     def tearDownClass(cls):
         AboutInfo.objects.all().delete()
         User.objects.all().delete()
+        Token.objects.all().delete()
+        Group.objects.all().delete()
 
     def test_empty_about_info_request(self):
         """ This test verifies that the endpoint returns successfully without any about info records """
@@ -144,3 +151,42 @@ class AboutInfoModelTest(TestCase):
         except IntegrityError as e:
             # self.assertContains(str(e), "duplicate key value violates unique constraint")
             pass
+
+
+class UnauthorizedAboutInfoViewsTest(TestCase):
+    """ This test suite runs tests against the about details endpoint and verifies
+    cannot be accessed by a user that is not in the 'Web Clients' group """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.factory = APIRequestFactory()
+        cls.view = AboutDetails.as_view()
+        cls.user = User.objects.create_user(
+            'test',
+            'test@test.com',
+            'test',
+        )
+        Token.objects.get_or_create(user=cls.user)
+
+    @classmethod
+    def tearDownClass(cls):
+        AboutInfo.objects.all().delete()
+        User.objects.all().delete()
+        Token.objects.all().delete()
+
+    def test_unauthorized_about_home_info_request(self):
+        request = UnauthorizedAboutInfoViewsTest.factory.get('/web/about-info/')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
+        response = UnauthorizedAboutInfoViewsTest.view(request)
+        self.assertEquals(status.HTTP_403_FORBIDDEN, response.status_code)
+
+        request = UnauthorizedAboutInfoViewsTest.factory.get('/web/about-info/?location=home')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
+        response = UnauthorizedAboutInfoViewsTest.view(request)
+        self.assertEquals(status.HTTP_403_FORBIDDEN, response.status_code)
+
+    def test_unauthorized_about_info_request(self):
+        request = UnauthorizedAboutInfoViewsTest.factory.get('/web/about-info/?location=about')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
+        response = UnauthorizedAboutInfoViewsTest.view(request)
+        self.assertEquals(status.HTTP_403_FORBIDDEN, response.status_code)

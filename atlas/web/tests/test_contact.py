@@ -1,6 +1,6 @@
 from unittest import mock
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core import mail
 from django.test import TestCase
 
@@ -25,6 +25,11 @@ class ContactMeTest(TestCase):
             'test',
         )
         Token.objects.get_or_create(user=cls.user)
+        cls.group = Group(name='Web Clients')
+        cls.group.save()
+
+        cls.user.groups.add(cls.group)
+        cls.user.save()
 
     def setUp(self):
         # Reset the outbox before every test
@@ -33,6 +38,8 @@ class ContactMeTest(TestCase):
     @classmethod
     def tearDownClass(cls):
         User.objects.all().delete()
+        Token.objects.all().delete()
+        Group.objects.all().delete()
 
     def test_successful_email_request(self):
         """ This test verifies the behavior of a successful email request """
@@ -147,3 +154,38 @@ class ContactMeTest(TestCase):
             self.assertEquals(status.HTTP_500_INTERNAL_SERVER_ERROR, response.status_code)
             self.assertIn('Encountered a problem sending this message', response.data['details'])
             self.assertEquals(False, response.data['success'])
+
+
+class ContactMeUnauthorizedTest(TestCase):
+    """ This test suite verifies the contact me endpoint cannot be accessed by a user
+    that is not in the 'Web Client's group """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.factory = APIRequestFactory()
+        cls.view = ContactMe.as_view()
+        cls.user = User.objects.create_user(
+            'test',
+            'test@test.com',
+            'test',
+        )
+        Token.objects.get_or_create(user=cls.user)
+
+    @classmethod
+    def tearDownClass(cls):
+        User.objects.all().delete()
+        Token.objects.all().delete()
+
+    def test_unauthorized_email_request(self):
+
+        with self.settings(DEFAULT_CONTACT_EMAIL_ADDRESS='test.email@domain.com'):
+            data = {
+                'name': 'Django User',
+                'subject': 'I am sending an email',
+                'from': 'django.user@testing.com',
+                'message': 'Hello, this is an email'
+            }
+            request = ContactMeTest.factory.post('/web/contact/', data)
+            force_authenticate(request, user=self.user, token=self.user.auth_token)
+            response = ContactMeTest.view(request)
+            self.assertEquals(status.HTTP_403_FORBIDDEN, response.status_code)

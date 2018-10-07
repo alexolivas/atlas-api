@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.test import TestCase
 
 from rest_framework import status
@@ -25,13 +25,21 @@ class ListProjectsViewEmptyTest(TestCase):
             'test',
         )
         Token.objects.get_or_create(user=cls.user)
+        cls.group = Group(name='Web Clients')
+        cls.group.save()
+
+        cls.user.groups.add(cls.group)
+        cls.user.save()
 
     def setUp(self):
         Project.objects.all().delete()
 
     @classmethod
     def tearDownClass(cls):
+        Project.objects.all().delete()
         User.objects.all().delete()
+        Token.objects.all().delete()
+        Group.objects.all().delete()
 
     def test_get_projects(self):
         """ This test verifies the GET endpoint returns a 200 without any records
@@ -64,6 +72,11 @@ class ListProjectsViewTest(TestCase):
             'test',
         )
         Token.objects.get_or_create(user=cls.user)
+        cls.group = Group(name='Web Clients')
+        cls.group.save()
+
+        cls.user.groups.add(cls.group)
+        cls.user.save()
 
         cls.project_1 = Project.objects.create(
             name='Test Project 1',
@@ -173,6 +186,7 @@ class ListProjectsViewTest(TestCase):
     def tearDownClass(cls):
         Project.objects.all().delete()
         User.objects.all().delete()
+        Group.objects.all().delete()
 
     def test_get_projects(self):
         """ This test verifies the GET endpoint returns the complete list of active projects """
@@ -246,6 +260,11 @@ class ProjectDetailsViewTest(TestCase):
             'test',
         )
         Token.objects.get_or_create(user=cls.user)
+        cls.group = Group(name='Web Clients')
+        cls.group.save()
+
+        cls.user.groups.add(cls.group)
+        cls.user.save()
 
         python_skill = TechnicalSkill.objects.create(
             name='Python',
@@ -288,6 +307,7 @@ class ProjectDetailsViewTest(TestCase):
         Project.objects.all().delete()
         TechnicalSkill.objects.all().delete()
         User.objects.all().delete()
+        Group.objects.all().delete()
 
     def test_get_project(self):
         """ This test verifies the GET endpoint returns a project's details  """
@@ -344,3 +364,42 @@ class ProjectDetailsViewTest(TestCase):
         response = ProjectDetailsViewTest.view(request, project_id=self.hidden_project.id)
         self.assertEquals(status.HTTP_404_NOT_FOUND, response.status_code)
         self.assertEquals('Project not found', response.data['detail'])
+
+
+class UnauthorizedListProjectsViewTest(TestCase):
+    """ This test suite runs tests against all project endpoints as
+     a user without the required permissions. All tests will run
+     as an authenticated user but that user will not have the correct
+     view permissions as they are not in the 'Web Clients' group """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.factory = APIRequestFactory()
+        cls.list_projects_view = ListProjects.as_view()
+        cls.project_details_view = ProjectDetails.as_view()
+        cls.user = User.objects.create_user(
+            'test',
+            'test@test.com',
+            'test',
+        )
+        Token.objects.get_or_create(user=cls.user)
+
+    def setUp(self):
+        Project.objects.all().delete()
+        Token.objects.all().delete()
+
+    @classmethod
+    def tearDownClass(cls):
+        User.objects.all().delete()
+
+    def test_get_projects_unauthorized(self):
+        request = UnauthorizedListProjectsViewTest.factory.get('/web/projects/')
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
+        response = UnauthorizedListProjectsViewTest.list_projects_view(request)
+        self.assertEquals(status.HTTP_403_FORBIDDEN, response.status_code)
+
+    def test_get_project_unauthorized(self):
+        request = UnauthorizedListProjectsViewTest.factory.get('/web/projects/{0}'.format(1))
+        force_authenticate(request, user=self.user, token=self.user.auth_token)
+        response = UnauthorizedListProjectsViewTest.project_details_view(request, project_id=1)
+        self.assertEquals(status.HTTP_403_FORBIDDEN, response.status_code)
