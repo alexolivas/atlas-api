@@ -65,6 +65,7 @@ $ vi .env
 Populate it with the following environment variables, generate the SECRET_KEY with a tool like 1password: 50 characters. It is important that these variables exist so that the application can run.
 NOTE: The ALLOWED_HOSTS variable must be a comma separated lists if there are multiple hosts e.g. 'localhost', '127.0.0.1' 
 ```
+ENVIRONMENT=development
 SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 DEBUG=True
 DATABASE_URL='postgres://<POSTGRES_USER>:<POSTGRES_PASSWORD>@localhost:5432/<POSTGRES_DB>'
@@ -185,6 +186,7 @@ To setup bitbucket pipelines you have to add the following pipeline environment 
 
 | Environment Variable  | Value                                                |
 | ----------------------| -----------------------------------------------------|
+| ENVIRONMENT           | <development/stage/production>                       |
 | DATABASE_URL          | sqlite:////atlas-db.sqlite                           |
 | CORS_ORIGIN_WHITELIST | '<website-url>'                                      |
 | DEBUG                 | True/False                                           |

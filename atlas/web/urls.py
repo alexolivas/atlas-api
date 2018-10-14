@@ -2,6 +2,7 @@ from django.urls import path
 
 from atlas.web.views.about_views import *
 from atlas.web.views.contact_views import ContactMe
+from atlas.web.views.atlas_views import AtlasAPIVersion
 from atlas.web.views.projects_views import ListFeaturedProjects, ListProjects, ProjectDetails
 
 from atlas.web.views.career_views import ResumeTimeline
@@ -18,4 +19,5 @@ urlpatterns = [
     path('projects/', ListProjects.as_view(), name='portfolio-projects'),
     path('projects/featured/', ListFeaturedProjects.as_view(), name='featured-projects'),
     path('projects/<int:project_id>/', ProjectDetails.as_view(), name='project-details'),
+    path('version/', AtlasAPIVersion.as_view(), name='atlas-api-version'),
 ]

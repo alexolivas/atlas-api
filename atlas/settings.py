@@ -28,6 +28,9 @@ DEBUG = bool(os.environ.get('DEBUG', False))
 # e.g. ['test.com', 'website.com']
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
 
+# Environment variable that determines what environment this app is running on
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
