@@ -25,7 +25,8 @@ class AtlasAPIVersion(APIView):
         # https://github.com/facebook/create-react-app/issues/2466 << use this to read version from package.json
 
         environment = settings.ENVIRONMENT
-        # release_lifecycle = '' if environment == 'production' else ('-dev' if environment == 'development' else '-beta')
+        # release_lifecycle = '' if environment == 'production' else ('-dev'
+        # if environment == 'development' else '-beta')
 
         # import subprocess
         # tag = subprocess.check_output(["git", "describe", "--always"]).strip()
@@ -33,6 +34,11 @@ class AtlasAPIVersion(APIView):
         repo = git.Repo()
         # if development, get the current latest commit hash
         # tag = repo.head.object.hexsha
+
+        # TODO: MASTER release and master will be the same on heroku, I will heroku promote stage to prod
+        # TODO: RELEASE branch will be deployed to my live stage server
+        # TODO: DEVELOP branches will be ignored, only tests will be run
+        # TODO: FEATURE branches will be ignored, only tests will be run
 
         # By default,
         tag = repo.head.object.hexsha
@@ -44,9 +50,10 @@ class AtlasAPIVersion(APIView):
         print(repo.tags[0])
         print("Tag commit: {0}".format(repo.tags[0].commit))
 
+        # TODO https://coderwall.com/p/mk18zq/automatic-git-version-tagging-for-npm-modules
         tag = None
         if environment == 'production':
-            # Get the latest tag on the master branch
+            # Get the latest tag on the master branch, verify the last commit matches the tag
             tag = repo.tags[0]
             version = tag
         elif environment == 'stage':
@@ -56,7 +63,7 @@ class AtlasAPIVersion(APIView):
             # Finally, if the user is running a development version of
             # the Atlas API just get the latest commit hash
             tag = str(repo.head.object.hexsha)[:10]
-            active_branch = repo.active_branch.name[:12]
+            active_branch = repo.active_branch.name[:25]
             version = '{0}-{1}'.format(tag, active_branch)
 
         print(repo.heads)
