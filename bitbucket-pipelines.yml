@@ -14,60 +14,36 @@ pipelines:
         caches:
           - pip
         script:
-          - curl https://cli-assets.heroku.com/install.sh | sh
           - pip install -r requirements.txt
           - python manage.py test -v 2
-          - heroku authorizations:create
         services:
           - postgres
 
   branches:
-#    tags:                         # add the 'tags' section
-#      release-*:                  # specify the tag
-#        - step:                   # define the build pipeline for the tag
-#          name: Deploy and release
-#          deployment: production   # set to test, staging or production
-#          script:
-#            - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD
     master:
       - step:
-          # set HEROKU_API_KEY and HEROKU_APP_NAME environment variables
-          # set clone `depth: full' as described here: https://confluence.atlassian.com/x/Y9-5Mw
           name: Deploy to production
           deployment: production
           caches:
-            - curl https://cli-assets.heroku.com/install.sh | sh
             - pip
           script:
-            - pip install -r requirements.txt
-            # TODO: step1 > tag the release using the gitversion variables ($MajorMinorPatch) >> gitversion /showvariable MajorMinorPatch
-            # TODO: step2 > in heroku, promote stage environment to production
-            # - python manage.py test
-            # TODO: Uncomment this when I am truly ready to deploy to production
-            # TODO: when I merge develop into RC I should re-build dev and via command line promote dev to stage. Figure this out
-            # heroku pipelines:promote -r staging OR
-            # heroku pipelines:promote -a $HEROKU_STAGE_APP_NAME
-#            - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD
-    hotfix/*:
-      - step:
-          name: Deploy hotfix to production
-          deployment: production
-          caches:
             - curl https://cli-assets.heroku.com/install.sh | sh
-            - pip
-          script:
             - pip install -r requirements.txt
-            # TODO: figure out if `gitflow hotfix finish xxxxx` merges back to develop and master (ANSWER: IT DOES!)
+            - python manage.py test -v 2
+            # - TODO: create a tag
+            # TODO: everything below needs to be a script to either promote stage or hotfix
+            # Deploy to stage so it has the latest build, then promote it to production so they're in sync
+            - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git HEAD:master
+            - heroku authorizations:create
+            - heroku pipelines:promote -a $HEROKU_STAGE_APP_NAME
     release/*:
       - step:
           name: Deploy to Stage RC
           deployment: staging
           caches:
-            - herokucli
             - pip
           script:
-#            - curl https://cli-assets.heroku.com/install.sh | sh
-            - bash bitbucket-pipelines-download-heroku-cli.sh
+            - curl https://cli-assets.heroku.com/install.sh | sh
             - pip install -r requirements.txt
             - python manage.py test -v 2
             - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_STAGE_APP_NAME.git HEAD:master
@@ -75,26 +51,20 @@ pipelines:
             - heroku run -a $HEROKU_STAGE_APP_NAME python restore_db.py
           services:
             - postgres
-#    develop:
-#      - step:
-#          deployment: test
-#          caches:
-#            - pip
-#          script:
-#            - pip install -r requirements.txt
-#            - python manage.py test -v 2
-#          services:
-#            - postgres
-#    feature/*:
-#      - step:
-#          deployment: test
-#          caches:
-#            - pip
-#          script:
-#            - pip install -r requirements.txt
-#            - python manage.py test -v 2
-#          services:
-#            - postgres
+    develop:
+      - step:
+          deployment: test
+          caches:
+            - pip
+          script:
+            - curl https://cli-assets.heroku.com/install.sh | sh
+            - pip install -r requirements.txt
+            - python manage.py test -v 2
+            - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_DEV_APP_NAME.git HEAD:master
+            - heroku authorizations:create
+            - heroku run -a $HEROKU_DEV_APP_NAME python restore_db.py
+          services:
+            - postgres
 
 definitions:
   services:
