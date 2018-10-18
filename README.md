@@ -195,12 +195,31 @@ To setup bitbucket pipelines you have to add the following pipeline environment 
 | DEFAULT_CONTACT_EMAIL_ADDRESS | <email-address>                              |
 | DISABLE_COLLECTSTATIC | 1                                                    |
 
-Merging a feature branch into develop automatically triggers the build pipeline to run unit tests to verify that the feature doesn't break anything and if that is successful a new staging environment is built and deployed to heroku
+Merging a feature branch into develop automatically triggers the build pipeline to run unit tests to verify that the feature doesn't break anything on develop and deploys a new development environment to Heroku.
+
+To schedule a release, use gitflow to create a release branch. Pushing up changes to a release branch automatically triggers the build pipeline to run unit tests and deploy a new staging RC environment to Heroku.
+NOTE: when starting a new release I have to manually (for now) update the version in atlas.__version__. To determine the next version use the following commands:
+
+next patch: 1.4.2 -> 1.4.3
+```bash
+$ VERSION=`git semver --next-patch`
+```
+next minor: 1.4.2 -> 1.5.0
+```bash
+$ VERSION=`git semver --next-minor`
+```
+next major: 1.4.2 -> 2.0.0
+```bash
+$ VERSION=`git semver --next-major`
+```
+
+The above was taken from: https://romain.dorgueil.net/blog/en/tips/2016/08/20/releases-with-git-semver.html
 
 Merging into master triggers the build pipeline:
 - run the unit tests 
 - if they pass, tag the release to the next version (maybe)
-- deploy to heroku
+- deploy to heroku (stage environment to keep environments in sync)
+- promotes stage to production
 
 ### Heroku Setup
 Production and staging environments are hosted on Heroku. In order to get this REST API to run correctly we must setup the same environment variables we setup for development. However, with different values for each environment.
