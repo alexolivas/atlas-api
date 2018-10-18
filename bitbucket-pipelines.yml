@@ -12,10 +12,9 @@ pipelines:
     - step:
         deployment: test
         caches:
-          - herokucli
           - pip
         script:
-          - bash bitbucket-pipelines-download-heroku-cli.sh
+          - curl https://cli-assets.heroku.com/install.sh | sh
           - pip install -r requirements.txt
           - python manage.py test -v 2
           - heroku authorizations:create
@@ -105,5 +104,3 @@ definitions:
         POSTGRES_DB: atlas_pipeline_db
         POSTGRES_USER: test_user
         POSTGRES_PASSWORD: test_user_password
-  caches:
-    herokucli: /usr/local/bin/heroku
