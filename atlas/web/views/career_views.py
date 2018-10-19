@@ -1,9 +1,11 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from atlas.web.models import CareerSnapshot
+from atlas.web.permissions import WebsiteAccessPermission
 from atlas.web.serializers.career_snapshot_serializer import CareerSnapshotSerializer
 
 
@@ -11,14 +13,8 @@ class ResumeTimeline(APIView):
     """
     This endpoint returns my resume: career highlights such as jobs or promotions
     """
-    permission_classes = (AllowAny,)
-
-    # @staticmethod
-    # def get_resume():
-    #     try:
-    #         return Project.objects.get(pk=pk, display_on_website=True)
-    #     except Project.DoesNotExist:
-    #         raise Http404
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         """

@@ -1,39 +1,41 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
 from atlas.web.models import AboutInfo
 from atlas.web.models import Expertise
 from atlas.web.models import TechnicalSkill
+from atlas.web.permissions import WebsiteAccessPermission
 from atlas.web.serializers.about_info_serializer import AboutInfoSerializer
 from atlas.web.serializers.technology_serializer import TechnicalSkillSerializer
-
 from atlas.web.serializers.expertise_serializer import ExpertiseSerializer
 
 
-class AboutInfoDetails(APIView):
+class AboutDetails(APIView):
     """
-    This endpoint returns the "about info" to display on the about section of the website
+    This endpoint returns the "about details"
     """
-    permission_classes = (AllowAny,)
-
-    @staticmethod
-    def get_about_info():
-        try:
-            return AboutInfo.objects.all()[0]
-        except:
-            return None
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
-        about_info = AboutInfoSerializer(self.get_about_info())
-        return Response(about_info.data, status=status.HTTP_200_OK)
+        queryset = AboutInfo.objects.all()
+        if queryset:
+            location = self.request.query_params.get('location', AboutInfo.HOME)
+            queryset = queryset.filter(location=location)
+            return Response(AboutInfoSerializer(queryset[0]).data)
+        else:
+            return Response({})
 
 
 class ExpertiseDetails(APIView):
     """
     This endpoint returns my technical expertise details
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         """
@@ -51,7 +53,8 @@ class ProgrammingDetails(APIView):
     """
     This endpoint returns the programming languages and frameworks I am familiar with
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         programming_framework_skills = TechnicalSkill.objects.filter(
@@ -65,7 +68,8 @@ class DevelopmentToolDetails(APIView):
     """
     This endpoint returns the development tools I am familiar with
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         development_tool_skills = TechnicalSkill.objects.filter(
@@ -79,7 +83,8 @@ class DataStorageDetails(APIView):
     """
     This endpoint returns the data storage technologies I am familiar with
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         data_skills = TechnicalSkill.objects.filter(
@@ -93,7 +98,8 @@ class DeploymentDetails(APIView):
     """
     This endpoint returns the deployment tools I am familiar with
     """
-    permission_classes = (AllowAny,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticatedOrReadOnly, WebsiteAccessPermission)
 
     def get(self, request, format=None):
         deployment_skills = TechnicalSkill.objects.filter(

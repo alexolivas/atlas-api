@@ -26,7 +26,10 @@ DEBUG = bool(os.environ.get('DEBUG', False))
 
 # A list of strings representing the host/domain names that this Django site can serve:
 # e.g. ['test.com', 'website.com']
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+
+# Environment variable that determines what environment this app is running on
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'development')
 
 # Application definition
 INSTALLED_APPS = [
@@ -53,7 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,10 +136,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.ScopedRateThrottle',
+    ),
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '150/day',
-    },
-    # 'PAGE_SIZE': 10
+        'contacts': '50/day',
+    }
 }
 
 JWT_AUTH = {
@@ -145,7 +150,7 @@ JWT_AUTH = {
 
 STATIC_URL = '/static/'
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
@@ -162,6 +167,7 @@ AWS_S3_ACCESS_KEY_ID = os.environ.get('AWS_S3_ACCESS_KEY_ID')
 AWS_S3_SECRET_ACCESS_KEY = os.environ.get('AWS_S3_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
+DEFAULT_CONTACT_EMAIL_ADDRESS = os.environ.get('DEFAULT_CONTACT_EMAIL_ADDRESS')
 
 # CORS Settings (copy these settings over to django-rest project)
 CORS_ORIGIN_WHITELIST = (

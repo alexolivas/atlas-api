@@ -9,7 +9,6 @@ from atlas.web.models import Expertise
 
 class CareerSnapshotAdmin(admin.ModelAdmin):
     list_display = ('company', 'snapshot_type', 'position', 'location',)
-admin.site.register(CareerSnapshot, CareerSnapshotAdmin)
 
 
 # class CareerSnapshotAchievementAdmin(admin.ModelAdmin):
@@ -18,8 +17,7 @@ admin.site.register(CareerSnapshot, CareerSnapshotAdmin)
 
 
 class AboutInfoAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(AboutInfo, AboutInfoAdmin)
+    list_display = ('location',)
 
 
 # class TechnologyStackAdmin(admin.ModelAdmin):
@@ -35,9 +33,13 @@ admin.site.register(AboutInfo, AboutInfoAdmin)
 
 class TechnicalSkillAdmin(admin.ModelAdmin):
     list_display = ('name', 'skill_type',)
-admin.site.register(TechnicalSkill, TechnicalSkillAdmin)
 
 
 class ExpertiseAdmin(admin.ModelAdmin):
     list_display = ('area',)
+
+
+admin.site.register(CareerSnapshot, CareerSnapshotAdmin)
+admin.site.register(AboutInfo, AboutInfoAdmin)
+admin.site.register(TechnicalSkill, TechnicalSkillAdmin)
 admin.site.register(Expertise, ExpertiseAdmin)
