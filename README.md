@@ -87,8 +87,19 @@ DEFAULT_CONTACT_EMAIL_ADDRESS=<email-address>
 ```
 
 This project is setup to run inside docker. It consists of two images, the django project and the postgres database. Run the following command to build the project for the first time (or anytime you want to start fresh)
+NOTE: Verify that there is no pgdata folder in your project directory the first time you are setting this up. On initial start up, the postgres container will be initialized with the database, user etc defined in .postgres-env
 ```bash
 $ docker-compose up --build
+```
+
+To bring down the environment
+```bash
+$ docker-compose down
+```
+
+To bring up the environment without re-building
+```bash
+$ docker-compose up
 ```
 
 ### Install Data
