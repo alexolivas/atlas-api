@@ -4,9 +4,7 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       # References the custom action responsible for building, linting, and testing this project
-      - uses: ./.github/action/build-and-test
+      - uses: ./.github/actions/build-and-test
