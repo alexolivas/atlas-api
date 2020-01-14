@@ -6,5 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
       # References the custom action responsible for building, linting, and testing this project
       - uses: ./.github/actions/build-and-test
