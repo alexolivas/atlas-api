@@ -19,7 +19,7 @@ git-semver==0.2.3
 gitdb2==2.0.5
 GitPython==2.1.11
 gunicorn==19.9.0
-httpie==0.9.9
+httpie==1.0.3
 idna==2.7
 itypes==1.1.0
 Jinja2==2.10
