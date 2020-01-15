@@ -7,7 +7,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 coverage==4.5.1
 dj-database-url==0.5.0
-Django==2.0.3
+Django==2.0.12
 django-cors-headers==2.4.0
 django-filter==2.0.0
 django-storages==1.7.1
@@ -19,7 +19,7 @@ git-semver==0.2.3
 gitdb2==2.0.5
 GitPython==2.1.11
 gunicorn==19.9.0
-httpie==0.9.9
+httpie==1.0.3
 idna==2.7
 itypes==1.1.0
 Jinja2==2.10
@@ -40,5 +40,5 @@ semantic-version==2.6.0
 six==1.11.0
 smmap2==2.0.5
 uritemplate==3.0.0
-urllib3==1.23
+urllib3==1.24.2
 whitenoise==4.1
