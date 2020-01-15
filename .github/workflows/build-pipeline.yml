@@ -1,12 +1,15 @@
 name: Atlas API build pipeline
 
-# Change this to pull-request once the build passes
-on: [push, pull_request]
+# Using a similar workflow to: https://marcgg.com/blog/2016/02/22/git-flow-heroku-pipelines/
+on:
+  pull_request:
+    branches: 
+      - develop
+      - release/*
+      - master
 
 jobs:
   build:
-    # Only run the build job on pull requests or if merging into 'develop', 'master', or 'release'
-    #if: github.event == 'pull_request' || contains(github.ref, 'develop') || contains(github.ref, 'master') || contains(github.ref, 'release/*')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -34,8 +37,9 @@ jobs:
           #    pytest
 
           # deploy-stage:
-          # Only run the deploy to stage job when pushing up to release
-          #if: github.event == 'push' && contains(github.ref, 'release/*')
+          # Only run the deploy to stage job when pull request to master (no direct push to production, that is 
+          # handled by heroku - promote stage to production)
+          #if: github.ref == 'refs/heads/master'
 
           # deploy-release
           # On deploy release push to master and to stage
