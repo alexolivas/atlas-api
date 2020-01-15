@@ -31,6 +31,8 @@ jobs:
       - name: Test
         run: |
           python manage.py test -v 2
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
           #- name: Test with pytest
           #  run: |
           #    pip install pytest
