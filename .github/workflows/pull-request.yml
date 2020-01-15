@@ -33,9 +33,9 @@ jobs:
           #    pip install pytest
           #    pytest
 
-  # deploy-stage:
-    # Only run the deploy to stage job when pushing up to release
-    #if: github.event == 'push' && contains(github.ref, 'release/*')
+          # deploy-stage:
+          # Only run the deploy to stage job when pushing up to release
+          #if: github.event == 'push' && contains(github.ref, 'release/*')
 
-  # deploy-release
-  # On deploy release push to master and to stage
+          # deploy-release
+          # On deploy release push to master and to stage
