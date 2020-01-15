@@ -37,6 +37,15 @@ jobs:
           #DATABASE_URL: sqlite:///
           
           # Use https://github.com/marketplace/actions/python-django-coverage-github-action
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Python Django Coverage GitHub Action
+        uses: dc740/django-coveragepy-github-action@0.9
+        with:
+          django-app: 'atlas'
+          #minimum-coverage: '86'
           #- name: Test with pytest
           #  run: |
           #    pip install pytest
