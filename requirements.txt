@@ -30,7 +30,7 @@ Pillow==5.2.0
 pipdeptree==0.13.0
 psycopg2-binary==2.7.5
 pur==5.0.0
-Pygments==2.2.0
+Pygments==2.7.4
 PyJWT==1.6.4
 python-dateutil==2.7.3
 pytz==2018.5
